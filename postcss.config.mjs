@@ -1,7 +1,6 @@
+/* Pure CSS project — no Tailwind, no PostCSS plugins needed. */
 const config = {
-  plugins: {
-    "@tailwindcss/postcss": {},
-  },
+  plugins: {},
 };
 
 export default config;
