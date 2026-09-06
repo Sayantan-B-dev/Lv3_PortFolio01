@@ -1,0 +1,62 @@
+/* ============================================================
+   curvy-separator.css — curvy drifting line separator
+   Tune everything from components/curvy-separator.tsx (CURVY_DEFAULTS).
+   ============================================================ */
+
+@keyframes curvy-drift-right {
+  0% { transform: translateX(-5%) translateY(0); }
+  25% { transform: translateX(-1%) translateY(-3px); }
+  50% { transform: translateX(5%) translateY(0); }
+  75% { transform: translateX(-1%) translateY(3px); }
+  100% { transform: translateX(-5%) translateY(0); }
+}
+
+@keyframes curvy-drift-left {
+  0% { transform: translateX(5%) translateY(0); }
+  25% { transform: translateX(1%) translateY(3px); }
+  50% { transform: translateX(-5%) translateY(0); }
+  75% { transform: translateX(1%) translateY(-3px); }
+  100% { transform: translateX(5%) translateY(0); }
+}
+
+.curvy-sep {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 1.1rem 0;
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.curvy-sep__track {
+  display: flex;
+  flex-direction: column;
+}
+
+.curvy-line {
+  width: 120%;
+  margin-left: -10%;
+  color: var(--primary);
+  will-change: transform;
+  opacity: var(--curvy-opacity, 0.55);
+}
+
+.curvy-line--drift-right {
+  animation: curvy-drift-right var(--curvy-dur, 10s) ease-in-out infinite;
+  animation-delay: var(--curvy-delay, 0s);
+}
+
+.curvy-line--drift-left {
+  animation: curvy-drift-left var(--curvy-dur, 10s) ease-in-out infinite;
+  animation-delay: var(--curvy-delay, 0s);
+}
+
+.curvy-line__svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+@media (min-width: 1024px) {
+  .curvy-sep { padding: 1.35rem 0; }
+}

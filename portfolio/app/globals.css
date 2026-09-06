@@ -1,0 +1,27 @@
+/* ============================================================
+   globals.css — pure CSS entry (NO Tailwind)
+   All section styles live in /public/styles/ for manageability.
+   ============================================================ */
+
+@import "../public/styles/tokens.css";
+@import "../public/styles/base.css";
+@import "../public/styles/layout.css";
+@import "../public/styles/header.css";
+@import "../public/styles/hero.css";
+@import "../public/styles/about.css";
+@import "../public/styles/projects.css";
+@import "../public/styles/skills.css";
+@import "../public/styles/experience.css";
+@import "../public/styles/contact.css";
+@import "../public/styles/marquee.css";
+@import "../public/styles/wave-lines.css";
+@import "../public/styles/curvy-separator.css";
+@import "../public/styles/motion.css";
+@import "../public/styles/glow-cursor.css";
+@import "../public/styles/globe.css";
+@import "../public/styles/grid-distortion.css";
+@import "../public/styles/gold.css";
+@import "../public/styles/ui.css";
+@import "../public/styles/responsive.css";
+
+/* Motion showcase runs even with prefers-reduced-motion (same as before). */

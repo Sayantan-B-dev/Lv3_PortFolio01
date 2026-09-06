@@ -1,0 +1,14 @@
+/* ============================================================
+   responsive.css — mobile tweaks (same as old globals.css)
+   ============================================================ */
+
+@media (max-width: 640px) {
+  .mobile-stack { flex-direction: column; }
+  .mobile-full-width {
+    max-width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .mobile-hide { display: none; }
+  .mobile-show { display: block; }
+}
