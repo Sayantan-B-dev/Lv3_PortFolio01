@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sayantan Bharati — Portfolio
 
-## Getting Started
+Personal portfolio for **Sayantan Bharati**, Full Stack Developer (MERN, Python).
 
-First, run the development server:
+## Stack
+
+- **Next.js 16** (App Router, RSC) + **React 19** + **TypeScript**
+- **Tailwind CSS v4** + **shadcn/ui** (base-nova, Base UI)
+- **Three.js** — custom WebGL shader particle globe in the hero
+- **Framer Motion** — scroll reveals, parallax, line/word masking
+- **Lenis** — buttery smooth scrolling with eased anchor navigation
+- Deploys to Vercel out of the box
+
+## Experience / Interactions
+
+- **Custom cursor** — dot + eased ring + canvas particle trail; expands over links/buttons, bursts on click (fine pointers only, respects reduced motion)
+- **Hero** — giant masked type reveal, Zara-style editorial typography with a serif italic accent, scroll-linked 3D globe drift, floating tech chips
+- **Marquees** — counter-moving tech tickers, pause on hover, edge-masked
+- **Parallax** — ghost words, vertical section titles, card depth
+- **Slow fade-ins** — FadeIn / LinesReveal / WordReveal on scroll into view
+- **Projects** — full-bleed editorial rows; hover reveals radial glow + feature bullets
+- **Timeline** — experience & education with a scroll-growing gradient line
+
+All motion disabled under `prefers-reduced-motion`; native cursor preserved on touch devices.
+
+## Sections
+
+Hero → tech ticker → About/Statement → Selected Work → Stack → Path (experience & education) → Contact & Certifications → footer.
+
+## Run locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run build
+npm start
+```
