@@ -1,0 +1,124 @@
+/* ============================================================
+   skills.css — Stack / 03 section
+   ============================================================ */
+
+.skills-section {
+  border-top: 1px solid color-mix(in oklch, var(--border) 50%, transparent);
+  border-bottom: 1px solid color-mix(in oklch, var(--border) 50%, transparent);
+}
+
+.skills-head { margin-top: 4rem; }
+@media (min-width: 1024px) {
+  .skills-head { margin-top: 6rem; }
+}
+
+.skills-marquees {
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+@media (min-width: 1024px) {
+  .skills-marquees { margin-top: 7rem; }
+}
+.skills-marquee--a {
+  font-size: 2.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: color-mix(in oklch, var(--foreground) 85%, transparent);
+}
+.skills-marquee--b {
+  font-size: 2.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: color-mix(in oklch, var(--foreground) 40%, transparent);
+}
+.skills-marquee--c {
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: color-mix(in oklch, var(--primary) 70%, transparent);
+}
+@media (min-width: 640px) {
+  .skills-marquee--a, .skills-marquee--b { font-size: 3.75rem; }
+  .skills-marquee--c { font-size: 2.25rem; }
+}
+
+.skills-grid-wrap {
+  margin-top: 5rem;
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+@media (min-width: 640px) {
+  .skills-grid-wrap { padding-left: 2rem; padding-right: 2rem; }
+}
+@media (min-width: 1024px) {
+  .skills-grid-wrap { margin-top: 7rem; padding-left: 3rem; padding-right: 3rem; }
+}
+@media (min-width: 1280px) {
+  .skills-grid-wrap { padding-left: 5rem; padding-right: 5rem; }
+}
+@media (min-width: 1536px) {
+  .skills-grid-wrap { padding-left: 7rem; padding-right: 7rem; }
+}
+.skills-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+@media (min-width: 1024px) {
+  .skills-grid { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+.skill-card {
+  height: 100%;
+  border-radius: 1rem;
+  border: 1px solid color-mix(in oklch, var(--border) 60%, transparent);
+  background: color-mix(in oklch, var(--card) 30%, transparent);
+  padding: 2rem;
+  transition: transform 0.5s, border-color 0.5s, background 0.5s;
+}
+.skill-card:hover {
+  transform: translateY(-0.5rem);
+  border-color: color-mix(in oklch, var(--primary) 40%, transparent);
+  background: color-mix(in oklch, var(--card) 60%, transparent);
+}
+.skill-card__top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.skill-card__title {
+  font-family: var(--font-serif);
+  font-size: 1.875rem;
+  font-style: italic;
+}
+.skill-card__title--frontend { color: var(--primary); }
+.skill-card__title--backend { color: oklch(0.827 0.119 306.383); }
+.skill-card__title--tools { color: oklch(0.833 0.145 321.434); }
+.skill-card__count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: color-mix(in oklch, var(--muted-foreground) 60%, transparent);
+}
+.skill-card__pills {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.skill-card__pill {
+  cursor: pointer;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklch, var(--border) 70%, transparent);
+  padding: 0.375rem 0.875rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  transition: border-color 0.3s, background 0.3s, color 0.3s;
+}
+.skill-card__pill:hover {
+  border-color: color-mix(in oklch, var(--primary) 60%, transparent);
+  background: color-mix(in oklch, var(--primary) 10%, transparent);
+  color: var(--foreground);
+}

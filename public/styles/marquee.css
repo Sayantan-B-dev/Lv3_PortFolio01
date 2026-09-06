@@ -1,0 +1,44 @@
+/* ============================================================
+   marquee.css — ticker / marquee
+   ============================================================ */
+
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+}
+.marquee-mask {
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+.marquee-track {
+  display: inline-flex;
+  width: max-content;
+  animation: marquee-x var(--marquee-speed, 32s) linear infinite;
+  will-change: transform;
+}
+.marquee-reverse .marquee-track { animation-direction: reverse; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+
+.marquee-group {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+.marquee-item {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+.marquee-sep {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  color: color-mix(in oklch, var(--primary) 60%, transparent);
+}
+@media (min-width: 640px) {
+  .marquee-sep { padding-left: 2.5rem; padding-right: 2.5rem; }
+}

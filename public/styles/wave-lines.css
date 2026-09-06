@@ -1,0 +1,67 @@
+/* ============================================================
+   wave-lines.css — wavy drifting line separator (10 lines)
+   Some drift left→right, some right→left, with sine-like bob.
+   ============================================================ */
+
+@keyframes wave-drift-right {
+  0% { transform: translateX(-6%) translateY(0); }
+  25% { transform: translateX(-1%) translateY(-3px); }
+  50% { transform: translateX(6%) translateY(0); }
+  75% { transform: translateX(-1%) translateY(3px); }
+  100% { transform: translateX(-6%) translateY(0); }
+}
+
+@keyframes wave-drift-left {
+  0% { transform: translateX(6%) translateY(0); }
+  25% { transform: translateX(1%) translateY(3px); }
+  50% { transform: translateX(-6%) translateY(0); }
+  75% { transform: translateX(1%) translateY(-3px); }
+  100% { transform: translateX(6%) translateY(0); }
+}
+
+.wave-sep {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 1.1rem 0;
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.wave-sep__track {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.wave-line {
+  height: 1px;
+  width: 120%;
+  margin-left: -10%;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklch, var(--primary) 38%, transparent) 22%,
+    color-mix(in oklch, var(--foreground) 22%, transparent) 50%,
+    color-mix(in oklch, var(--primary) 38%, transparent) 78%,
+    transparent
+  );
+  will-change: transform;
+  opacity: var(--wave-opacity, 0.55);
+}
+
+.wave-line--drift-right {
+  animation: wave-drift-right var(--wave-dur, 10s) ease-in-out infinite;
+  animation-delay: var(--wave-delay, 0s);
+}
+
+.wave-line--drift-left {
+  animation: wave-drift-left var(--wave-dur, 10s) ease-in-out infinite;
+  animation-delay: var(--wave-delay, 0s);
+}
+
+@media (min-width: 1024px) {
+  .wave-sep { padding: 1.35rem 0; }
+  .wave-sep__track { gap: 10px; }
+}
