@@ -1,26 +1,27 @@
-@import "tailwindcss";
+/* ============================================================
+   globals.css — pure CSS entry (NO Tailwind)
+   All section styles live in /public/styles/ for manageability.
+   ============================================================ */
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import "../public/styles/tokens.css";
+@import "../public/styles/base.css";
+@import "../public/styles/layout.css";
+@import "../public/styles/header.css";
+@import "../public/styles/hero.css";
+@import "../public/styles/about.css";
+@import "../public/styles/projects.css";
+@import "../public/styles/skills.css";
+@import "../public/styles/experience.css";
+@import "../public/styles/contact.css";
+@import "../public/styles/marquee.css";
+@import "../public/styles/wave-lines.css";
+@import "../public/styles/curvy-separator.css";
+@import "../public/styles/motion.css";
+@import "../public/styles/glow-cursor.css";
+@import "../public/styles/globe.css";
+@import "../public/styles/grid-distortion.css";
+@import "../public/styles/gold.css";
+@import "../public/styles/ui.css";
+@import "../public/styles/responsive.css";
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+/* Motion showcase runs even with prefers-reduced-motion (same as before). */
