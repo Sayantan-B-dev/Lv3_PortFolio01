@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "skills": {
+    "claymorphism": {
+      "source": "bergside/awesome-design-skills",
+      "sourceType": "github",
+      "skillPath": "skills/claymorphism/SKILL.md",
+      "computedHash": "ec2fd923cd2e389006b2ac2798bd832a56f9f0f99c9bd729758b9f17e0bbbc5d"
+    },
+    "css-animation-creator": {
+      "source": "onewave-ai/claude-skills",
+      "sourceType": "github",
+      "skillPath": "css-animation-creator/SKILL.md",
+      "computedHash": "733e7c6cd6d70106541651b09c826b0b7766894118f96ce6bb476403231197c3"
+    },
+    "frontend-ui-engineering": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/frontend-ui-engineering/SKILL.md",
+      "computedHash": "cb4e981ecb5f701b451fc4e937a38049b49fd4523f213e06cffbd00b007060dc"
+    },
+    "globe-particles": {
+      "source": "MengTo/skills",
+      "sourceType": "github",
+      "skillPath": "agent-skills/web-design/globe-particles/SKILL.md",
+      "computedHash": "0d583f6ff43d747a825349853c7e6642918466b1c444f8d9f03ad5f3e203d66e"
+    },
+    "migrate-radix-to-base": {
+      "source": "shadcn/ui",
+      "sourceType": "github",
+      "skillPath": "skills/migrate-radix-to-base/SKILL.md",
+      "computedHash": "4fdc31bf287f674ba6bf91a648120f7b34cd7ef370f998f2cc116fed067789c5"
+    },
+    "pacman": {
+      "source": "bergside/awesome-design-skills",
+      "sourceType": "github",
+      "skillPath": "skills/pacman/SKILL.md",
+      "computedHash": "9396ceca2bf618b6271f6ca0c9e12ef9f3cfa6eaae84238428f7423f126842d5"
+    },
+    "particle-system": {
+      "source": "iart-ai/webgl-animation-skills",
+      "sourceType": "github",
+      "skillPath": "skills/particle-system/SKILL.md",
+      "computedHash": "bb2d3e6716440991b120291191e3836c6cbe0489efc13f7e317ec9a63a434d4f"
+    },
+    "retro": {
+      "source": "bergside/awesome-design-skills",
+      "sourceType": "github",
+      "skillPath": "skills/retro/SKILL.md",
+      "computedHash": "436302f45cef6424d783ccbe5580dc849c30279849aae7604926635de3423cbf"
+    },
+    "shadcn": {
+      "source": "shadcn/ui",
+      "sourceType": "github",
+      "skillPath": "skills/shadcn/SKILL.md",
+      "computedHash": "d04e43ec01e921558b93bb8046c14a42a22556689a2827243df900825a4e1604"
+    },
+    "tailwind-4-docs": {
+      "source": "lombiq/tailwind-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/tailwind-4-docs/SKILL.md",
+      "computedHash": "4900f575f24641b1af459cda37cbb8438ecf3f8f1a63148384197cb730895093"
+    },
+    "tailwind-css": {
+      "source": "paulrberg/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/tailwind-css/SKILL.md",
+      "computedHash": "cd45745169aead39637d677f76230c927fea38ebb1b71752df231a2770fb6035"
+    },
+    "tailwind-css-patterns": {
+      "source": "giuseppe-trisciuoglio/developer-kit",
+      "sourceType": "github",
+      "skillPath": "plugins/developer-kit-typescript/skills/tailwind-css-patterns/SKILL.md",
+      "computedHash": "2fa1b2d4e0bc020dcbaa1e65af6f7ba75715116686e0fd663a4b268c8ace22d4"
+    },
+    "tailwind-v4-shadcn": {
+      "source": "secondsky/claude-skills",
+      "sourceType": "github",
+      "skillPath": "plugins/tailwind-v4-shadcn/skills/tailwind-v4-shadcn/SKILL.md",
+      "computedHash": "43c497c796637b4fafff6f12f8aa4e90c9b39f34ebd5f6f8f087d40b7a0293e8"
+    },
+    "threejs": {
+      "source": "nexu-io/open-design",
+      "sourceType": "github",
+      "skillPath": "skills/threejs/SKILL.md",
+      "computedHash": "96e60649f319bafa0c9f952d6f0e306c2e52bdf07cb9db736c55456b9a5566fa"
+    },
+    "vintage": {
+      "source": "bergside/awesome-design-skills",
+      "sourceType": "github",
+      "skillPath": "skills/vintage/SKILL.md",
+      "computedHash": "4183be1393f7ec2646ea9c9f170925f321ea9caaccf1ddb682d1cb429700503b"
+    }
+  }
+}
