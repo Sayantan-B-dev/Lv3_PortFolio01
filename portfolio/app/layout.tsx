@@ -42,6 +42,7 @@ export const metadata: Metadata = {
       "Full Stack Developer (MERN, Python) building production-ready web applications.",
     type: "website",
   },
+  manifest: "/site.webmanifest",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
