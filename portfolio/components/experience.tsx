@@ -2,11 +2,9 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { ArrowUpRight } from "lucide-react";
-import Image from "next/image";
 
 import { FadeIn, LinesReveal, Parallax } from "@/components/motion";
-import { ScrollStack, ScrollStackItem } from "@/components/scroll-stack";
+import { AccordionGallery } from "@/components/accordion-gallery";
 import { certifications, education, experience } from "@/lib/resume";
 
 export function Experience() {
@@ -116,50 +114,37 @@ export function Experience() {
           </div>
         </div>
 
-        {/* Certifications stack */}
+        {/* Certifications gallery */}
         <div className="exp-certs">
           <p className="exp-group__label exp-certs__label">
             <span>Certifications</span>
             <span className="exp-group__count">{String(certifications.length).padStart(2, "0")}</span>
           </p>
-          <ScrollStack itemDistance={60} itemScale={0.04} baseScale={0.88}>
-            {certifications.map((cert) => (
-              <ScrollStackItem key={cert.name}>
-                <a
-                  href={cert.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="stack-cert"
-                  aria-label={`${cert.name} (verify certificate)`}
-                >
-                  <span
-                    className="stack-cert__imgwrap"
-                    style={{
-                      position: "relative",
-                      display: "block",
-                      width: "100%",
-                      aspectRatio: "16 / 9",
-                      overflow: "hidden",
-                    }}
-                  >
-                    <Image
-                      src={encodeURI(cert.image)}
-                      alt={cert.name}
-                      fill
-                      sizes="(max-width: 1024px) 90vw, 70vw"
-                    />
-                  </span>
-                  <span className="stack-cert__meta">
-                    <span className="stack-cert__name">{cert.name}</span>
-                    <span className="stack-cert__verify">
-                      Verify
-                      <ArrowUpRight className="icon-4" aria-hidden="true" />
-                    </span>
-                  </span>
-                </a>
-              </ScrollStackItem>
-            ))}
-          </ScrollStack>
+          <AccordionGallery
+            items={certifications.map((cert) => ({
+              image: encodeURI(cert.image),
+              label: cert.name,
+              link: cert.url,
+              alt: cert.name,
+            }))}
+            defaultIndex={2}
+            expandRatio={0.52}
+            trigger="hover"
+            accentColor="#c4b5fd"
+            overlayColor="#060010"
+            textColor="#ffffff"
+            grayscale
+            showLabels
+            duration={0.6}
+            ease="power3.out"
+            parallax={0}
+            tilt={6}
+            stagger={0.06}
+            height={380}
+            gap={10}
+            radius={18}
+            orientation="horizontal"
+          />
         </div>
       </div>
     </section>

@@ -1,0 +1,29 @@
+/* ============================================================
+   light-tunnel.css: LightTunnel backdrop layer.
+   ============================================================ */
+
+.light-tunnel-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.light-tunnel-container canvas {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* Tunnel layer inside each accordion certificate panel */
+.ag-panel__tunnel {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.ag-panel__tunnel .light-tunnel-container {
+  position: absolute;
+  inset: 0;
+}
