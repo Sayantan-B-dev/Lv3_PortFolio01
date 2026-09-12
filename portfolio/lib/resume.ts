@@ -5,7 +5,6 @@ export const profile = {
   role: "Full Stack Developer",
   stack: "(MERN, Python)",
   email: "sayantanbharati611@gmail.com",
-  phone: "+91 8617563200",
   location: "Kolkata, India",
   linkedin: "https://linkedin.com/in/sayantan-bharati-6b1b77205/",
   github: "https://github.com/Sayantan-B-dev",

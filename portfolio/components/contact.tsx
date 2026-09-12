@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { ArrowUpRight, Mail, Phone } from "lucide-react";
+import { ArrowUpRight, Mail, MapPin } from "lucide-react";
 
 import { GithubIcon, LinkedinIcon } from "@/components/icons";
 import { FadeIn, LinesReveal } from "@/components/motion";
@@ -51,7 +51,7 @@ export function Contact() {
               className="contact-email"
             >
               <Mail className="icon-6 contact-email__icon" aria-hidden="true" />
-              <span className="contact-email__addr">{profile.email}</span>
+              <span className="contact-email__addr">Send me an email</span>
               <ArrowUpRight className="icon-6 contact-email__arrow" aria-hidden="true" />
             </a>
           </FadeIn>
@@ -65,7 +65,7 @@ export function Contact() {
                 </p>
                 <SocialRow href={profile.github} icon={<GithubIcon className="icon-5" />} label="GitHub" handle="@Sayantan-B-dev" />
                 <SocialRow href={profile.linkedin} icon={<LinkedinIcon className="icon-5" />} label="LinkedIn" handle="Sayantan Bharati" />
-                <SocialRow href={`tel:${profile.phone.replace(/\s/g, "")}`} icon={<Phone className="icon-5" />} label="Phone" handle={profile.phone} />
+                <SocialRow href="https://maps.google.com/?q=Kolkata,India" icon={<MapPin className="icon-5" />} label="Based in" handle="Kolkata, India" />
               </div>
             </FadeIn>
 

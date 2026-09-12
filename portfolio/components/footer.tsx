@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowUp, Mail, Phone } from "lucide-react";
+import { ArrowUp, Mail } from "lucide-react";
 
 import { Marquee } from "@/components/marquee";
 import { GithubIcon, LinkedinIcon } from "@/components/icons";
@@ -67,13 +67,7 @@ export function Footer() {
               <li>
                 <a href={`mailto:${profile.email}`} className="site-footer__col-link">
                   <Mail className="icon-4" />
-                  Email
-                </a>
-              </li>
-              <li>
-                <a href={`tel:${profile.phone.replace(/\s/g, "")}`} className="site-footer__col-link">
-                  <Phone className="icon-4" />
-                  {profile.phone}
+                  Send an email
                 </a>
               </li>
             </ul>
@@ -85,7 +79,7 @@ export function Footer() {
               {profile.role} {profile.stack} — building production-ready web apps from Kolkata, India.
             </p>
             <a href={`mailto:${profile.email}`} className="site-footer__mail">
-              {profile.email}
+              Send an email
             </a>
             <p className="site-footer__blurb-dim">Replies within a day.</p>
           </div>
