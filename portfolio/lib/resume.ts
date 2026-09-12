@@ -102,7 +102,7 @@ export const education = [
 
 export const experience = [
   {
-    role: "Music Producer & Sound Engineer — Freelancer",
+    role: "Freelance Music Producer & Sound Engineer",
     company: "Remote",
     period: "2021 – 2025",
     points: [

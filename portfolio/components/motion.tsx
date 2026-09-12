@@ -7,7 +7,7 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 
 /**
  * On small screens the scroll-triggered (IntersectionObserver) reveals can
- * misfire and leave headings stuck invisible — so mobile renders the final
+ * misfire and leave headings stuck invisible, so mobile renders the final
  * state immediately with a pure-CSS entrance instead. Desktop keeps framer.
  */
 function useInstantReveal() {

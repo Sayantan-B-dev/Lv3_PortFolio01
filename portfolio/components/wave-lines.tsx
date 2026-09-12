@@ -5,7 +5,7 @@ interface WaveLinesProps {
 }
 
 /**
- * WaveLines — 10 thin lines that drift like waves.
+  * WaveLines: 10 thin lines that drift like waves.
  * Even rows go left→right, odd rows go right→left,
  * each with its own duration / delay / opacity (deterministic).
  */

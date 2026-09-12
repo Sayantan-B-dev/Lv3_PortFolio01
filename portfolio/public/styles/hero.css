@@ -1,5 +1,5 @@
 /* ============================================================
-   hero.css — Hero section
+   hero.css: Hero section
    ============================================================ */
 
 .hero {
@@ -141,7 +141,7 @@
   /* buttons + socials drop below the float instead of sliding under it */
   .hero__left .hero__cta-row { clear: right; }
 }
-/* Portrait — floated inside the text like a book illustration */
+/* Portrait: floated inside the text like a book illustration */
 .hero__portrait {
   position: relative;
   width: 100%;
@@ -311,7 +311,7 @@
 .hero__chip--2 { bottom: 20%; left: -1.25rem; }
 .hero__chip--3 { bottom: 8%; right: -1.25rem; }
 
-/* Mini playground panel — bare thin look, top-center, no background */
+/* Mini playground panel: bare thin look, top-center, no background */
 .globe-tune {
   position: absolute;
   top: auto;

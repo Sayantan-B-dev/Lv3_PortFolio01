@@ -1,4 +1,4 @@
-/* Pure CSS project — no Tailwind, no PostCSS plugins needed. */
+/* Pure CSS project: no Tailwind, no PostCSS plugins needed. */
 const config = {
   plugins: {},
 };

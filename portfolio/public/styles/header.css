@@ -1,5 +1,5 @@
 /* ============================================================
-   header.css — SiteHeader
+   header.css: SiteHeader
    ============================================================ */
 
 .site-header {
@@ -162,7 +162,7 @@
   .site-header__cta { display: inline-block; }
 }
 
-/* Hamburger — only below lg */
+/* Hamburger: only below lg */
 .site-header__burger {
   display: inline-flex;
   flex-shrink: 0;

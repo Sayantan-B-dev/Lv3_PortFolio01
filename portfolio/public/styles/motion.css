@@ -1,9 +1,9 @@
 /* ============================================================
-   motion.css — LinesReveal / WordReveal / Parallax / FadeIn helpers
+   motion.css: LinesReveal / WordReveal / Parallax / FadeIn helpers
    + float + aurora
    ============================================================ */
 
-/* Fail-safe entrance for small screens (no IO dependency — can't get stuck) */
+/* Fail-safe entrance for small screens (no IO dependency, never gets stuck) */
 @keyframes motion-safe-in {
   from {
     opacity: 0;

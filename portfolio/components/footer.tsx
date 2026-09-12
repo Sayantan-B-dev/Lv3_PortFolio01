@@ -76,7 +76,7 @@ export function Footer() {
           <div className="site-footer__col">
             <p className="site-footer__col-title">Contact</p>
             <p className="site-footer__blurb">
-              {profile.role} {profile.stack} — building production-ready web apps from Kolkata, India.
+              {profile.role} {profile.stack}, building production-ready web apps from Kolkata, India.
             </p>
             <a href={`mailto:${profile.email}`} className="site-footer__mail">
               Send an email
@@ -106,7 +106,7 @@ export function Footer() {
             © {new Date().getFullYear()} {profile.name}
           </p>
           <p className="site-footer__copy">
-            Kolkata, IN — <span className="site-footer__time">{time} IST</span>
+            Kolkata, IN · <span className="site-footer__time">{time} IST</span>
           </p>
           <a href="#top" className="site-footer__link">
             Back to top

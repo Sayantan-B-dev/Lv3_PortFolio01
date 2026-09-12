@@ -1,5 +1,5 @@
 /* ============================================================
-   grid-distortion.css — ReactBits GridDistortion (me2.png)
+   grid-distortion.css: ReactBits GridDistortion (me2.png)
    Pure CSS, keeps contact frame corners:
    top-left sharp, top-right curved, bottom-right sharp,
    bottom-left curved.
@@ -19,7 +19,7 @@
   height: 100% !important;
 }
 
-/* Contact photo host — distortion fills the same frame */
+/* Contact photo host: distortion fills the same frame */
 .contact-distortion {
   border-radius: inherit;
 }

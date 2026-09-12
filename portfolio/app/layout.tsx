@@ -22,7 +22,7 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Sayantan Bharati — Full Stack Developer",
+  title: "Sayantan Bharati, Full Stack Developer",
   description:
     "Portfolio of Sayantan Bharati, a Full Stack Developer (MERN, Python) building production-ready web applications from Kolkata, India.",
   authors: [{ name: "Sayantan Bharati" }],
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     "Web Developer",
   ],
   openGraph: {
-    title: "Sayantan Bharati — Full Stack Developer",
+  title: "Sayantan Bharati, Full Stack Developer",
     description:
       "Full Stack Developer (MERN, Python) building production-ready web applications.",
     type: "website",

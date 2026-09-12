@@ -49,7 +49,7 @@ export function Experience() {
             lines={[
               <span key="a">Work, study,</span>,
               <span key="b">
-                repeat — <em>with intent</em>.
+                repeat, <em>with intent</em>.
               </span>,
             ]}
           />

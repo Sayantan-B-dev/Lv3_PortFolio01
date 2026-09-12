@@ -16,7 +16,6 @@ export function Contact() {
     offset: ["start end", "end end"],
   });
   const scale = useTransform(scrollYProgress, [0, 1], [0.92, 1]);
-  const opacity = useTransform(scrollYProgress, [0, 0.6], [0.6, 1]);
 
   return (
     <section ref={ref} id="contact" className="section-pad--contact">
@@ -25,7 +24,7 @@ export function Contact() {
         <div className="contact-glow__orb" />
       </div>
 
-      <motion.div style={{ scale, opacity }}>
+      <motion.div style={{ scale }}>
         <div className="container-x">
           <div className="eyebrow-row">
             <span className="eyebrow-row__num">05</span>
@@ -57,7 +56,7 @@ export function Contact() {
           </FadeIn>
 
           <div className="contact-grid">
-            {/* Socials — squeezed a bit to make room for me2 */}
+            {/* Socials, squeezed a bit to make room for me2 */}
             <FadeIn className="contact-elsewhere">
               <div className="contact-socials">
                 <p className="contact-label">
@@ -69,7 +68,7 @@ export function Contact() {
               </div>
             </FadeIn>
 
-            {/* me2 — GridDistortion hover effect */}
+            {/* me2 with GridDistortion hover effect */}
             <FadeIn delay={0.05} className="contact-photo">
               <div className="contact-photo__frame">
                 <GridDistortion

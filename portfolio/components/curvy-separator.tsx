@@ -1,5 +1,5 @@
 /* ============================================================
-   CurvySeparator — ONE place to tune the in-between lines.
+   CurvySeparator: ONE place to tune the in-between lines.
    Tweak CURVY_DEFAULTS below, it applies to EVERY separator
    (About ↔ Projects ↔ Skills ↔ Experience ↔ Contact).
 
@@ -37,7 +37,7 @@ export const CURVY_DEFAULTS = {
 interface CurvySeparatorProps {
   seed?: number;
   className?: string;
-  /** Override any default just for one instance — leave empty to follow globals. */
+  /** Override any default just for one instance: leave empty to follow globals. */
   lines?: number;
   amplitude?: number;
   wavelength?: number;
@@ -85,7 +85,7 @@ function heartbeatPath(spec: LineSpec, cfg: typeof CURVY_DEFAULTS, height: numbe
     const beatRand = rand(spec.seedNum + beatIndex * 17);
     const beatScale = 1 - cfg.irregularity * 0.5 + beatRand * cfg.irregularity;
 
-    // ECG morphology — sharp QRS, soft P + T
+    // ECG morphology: sharp QRS, soft P + T
     const p = 0.12 * gauss((t - 0.16) / 0.025);
     const q = -0.14 * gauss((t - 0.32) / 0.01);
     const r = 1.0 * gauss((t - 0.36) / 0.008);
@@ -93,7 +93,7 @@ function heartbeatPath(spec: LineSpec, cfg: typeof CURVY_DEFAULTS, height: numbe
     const tt = 0.28 * gauss((t - 0.62) / 0.045);
     const ecg = (p + q + r + s + tt) * beatScale;
 
-    // wavy baseline — layered breathing drift (more wavy, still heartbeat)
+    // wavy baseline: layered breathing drift (more wavy, still heartbeat)
     const wander =
       Math.sin((x / spec.wave) * Math.PI * 2 * 0.5 + spec.wanderPhase) * cfg.wander +
       Math.sin((x / spec.wave) * Math.PI * 2 * 1.3 + spec.wanderPhase * 1.7) * cfg.wander * 0.45;

@@ -82,7 +82,7 @@ export function Hero() {
             </span>
             Open to opportunities
           </span>
-          <span>Kolkata, India — 2026</span>
+          <span>Kolkata, India · 2026</span>
         </motion.div>
 
         {/* Two column: left (type + portrait), globe right */}
@@ -102,7 +102,7 @@ export function Hero() {
               />
             </h1>
 
-            {/* Portrait — floats inside the text like a book layout */}
+            {/* Portrait floats inside the text like a book layout */}
             <div className="hero__portrait">
               <GridDistortion
                 imageSrc="/me.webp"
@@ -116,8 +116,8 @@ export function Hero() {
             <div className="hero__copy">
               <p className="hero__lede">
                 {profile.role} crafting production-grade{" "}
-                <span className="hero__lede-strong">{profile.stack}</span> products
-                — secure APIs, expressive interfaces, and a few particles.
+                <span className="hero__lede-strong">{profile.stack}</span> products:
+                secure APIs, expressive interfaces, and a few particles.
               </p>
               <div className="hero__cta-row">
                 <a
@@ -188,7 +188,7 @@ export function Hero() {
               <div className="hero__chip hero__chip--3">
                 <Chip className="float-y" delay="-0.8s">{chips[3]}</Chip>
               </div>
-              {/* mini tune panel — fun params, right on the box */}
+              {/* mini tune panel with fun params, right on the box */}
               <div className="globe-tune">
                 <div className="globe-tune__head">
                   <span>Playground</span>

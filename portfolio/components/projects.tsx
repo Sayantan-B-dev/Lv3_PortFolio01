@@ -19,7 +19,7 @@ export function Projects() {
         <div className="eyebrow-row">
           <span className="eyebrow-row__num">02</span>
           <span className="eyebrow-row__center">Selected Work</span>
-          <span className="eyebrow-row__right">2024 — 2026</span>
+          <span className="eyebrow-row__right">2024–2026</span>
         </div>
 
         <div className="projects-head">
@@ -117,7 +117,7 @@ function ProjectRow({ project, index }: { project: (typeof projects)[number]; in
       <div className="project-row__features">
         {project.features.map((feature) => (
           <p key={feature}>
-            — {feature}
+            · {feature}
           </p>
         ))}
       </div>

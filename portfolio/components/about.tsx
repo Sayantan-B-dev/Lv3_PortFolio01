@@ -30,14 +30,14 @@ export function About() {
           <div className="about-statement">
             <h2 className="about-statement__title">
               <WordReveal
-                text="Full stack developer who ships real products — not just scaffolds."
+                text="Full stack developer who ships real products, not just scaffolds."
               />
             </h2>
 
             <Parallax from={30} to={-30} className="about-statement__lede">
               <p>
                 I build full-stack MERN applications end-to-end: data models,
-                secure authentication, REST APIs, Redis caching — and the
+                secure authentication, REST APIs, Redis caching, and the
                 pixel-level frontends people actually enjoy using. Clean
                 architecture first, practical solutions always.
               </p>
@@ -82,7 +82,7 @@ export function About() {
 
             <Parallax from={40} to={-40}>
               <p className="about-quote">
-                “Outside code: music producer & sound engineer — 900+ client
+                “Outside code: music producer & sound engineer with 900+ client
                 projects, and counting. Parallelism is a way of life.”
               </p>
             </Parallax>

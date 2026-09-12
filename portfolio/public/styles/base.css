@@ -1,5 +1,5 @@
 /* ============================================================
-   base.css — reset + document base (replaces tailwind preflight)
+   base.css: reset + document base (replaces tailwind preflight)
    EXACT SAME look as before, pure CSS.
    ============================================================ */
 
@@ -16,7 +16,7 @@ html {
   height: 100%;
   max-width: 100%;
   /* clip (not hidden): kills sideways overflow WITHOUT turning
-     html/body into scroll containers — hidden breaks Lenis + window scroll */
+     html/body into scroll containers. hidden breaks Lenis + window scroll */
   overflow-x: clip;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -79,7 +79,7 @@ section {
   width: 100%;
 }
 
-/* GlowCursor is a light trail — native cursor stays visible. */
+/* GlowCursor is a light trail: native cursor stays visible. */
 
 /* Icon size helpers (replaces size-*. Tailwind utilities) */
 .icon-3 { width: 0.75rem; height: 0.75rem; }
@@ -139,7 +139,7 @@ section {
   .container-x { padding-left: 7rem; padding-right: 7rem; }
 }
 
-/* Shared section rhythm — tightened gaps (was py-24 lg:py-40) */
+/* Shared section rhythm: tightened gaps (was py-24 lg:py-40) */
 .section-pad {
   position: relative;
   overflow: hidden;
