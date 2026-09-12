@@ -6,7 +6,7 @@ export const profile = {
   stack: "(MERN, Python)",
   email: "sayantanbharati611@gmail.com",
   location: "Kolkata, India",
-  linkedin: "https://linkedin.com/in/sayantan-bharati-6b1b77205/",
+  linkedin: "https://www.linkedin.com/in/sayantanbharati/",
   github: "https://github.com/Sayantan-B-dev",
   summary:
     "Full Stack Web Developer with experience in the MERN stack and building responsive, user-friendly web applications. Focused on writing clean, maintainable code, creating efficient workflows, and developing practical solutions that make a real difference.",
@@ -125,16 +125,44 @@ export const experience = [
 
 export const certifications = [
   {
-    name: "The Web Developer Bootcamp 2025",
-    url: "http://ude.my/UC-522fc92e-484b-408d-acc9-514fd997ba5c",
+    name: "Job Ready AI Powered Cohort: Web + DSA + Aptitude",
+    url: "https://classroom.sheryians.com/certificate/1708853705220236",
+    image: "/certifficates/Job Ready AI Powered Cohort Web  DSA  Aptitude.webp",
+  },
+  {
+    name: "The Web Developer Bootcamp 2026",
+    url: "https://www.udemy.com/certificate/UC-522fc92e-484b-408d-acc9-514fd997ba5c/",
+    image: "/certifficates/The Web Developer Bootcamp 2026.webp",
+  },
+  {
+    name: "The Complete Python Bootcamp: From Zero to Hero",
+    url: "https://www.udemy.com/certificate/UC-c778160d-4e6e-4e6e-a664-f93c1f60d93e/",
+    image: "/certifficates/The Complete Python Bootcamp From Zero to Hero in Python.webp",
   },
   {
     name: "The Complete Full-Stack Web Development Bootcamp",
-    url: "http://ude.my/UC-b18c98f0-980b-464b-ad26-f2606cd64bc9",
+    url: "https://www.udemy.com/certificate/UC-b18c98f0-980b-464b-ad26-f2606cd64bc9/",
+    image: "/certifficates/The Complete Full-Stack Web Development Bootcamp.webp",
   },
   {
-    name: "Job Ready AI Powered Cohort: Web + DSA + Aptitude",
-    url: "https://classroom.sheryians.com/certificate/1708853705220236",
+    name: "Master the Coding Interview: Data Structures + Algorithms",
+    url: "https://www.udemy.com/certificate/UC-bfeb62ba-d794-4786-98b4-7eb78180aed8/",
+    image: "/certifficates/Master the Coding Interview Data Structures Algorithms.webp",
+  },
+  {
+    name: "JavaScript: Understanding the Weird Parts",
+    url: "https://www.udemy.com/certificate/UC-4468e243-69e2-4161-a741-a271ac42bd57/",
+    image: "/certifficates/JavaScript Understanding the Weird Parts.webp",
+  },
+  {
+    name: "Complete Python with DSA: LeetCode Exercises",
+    url: "https://www.udemy.com/certificate/UC-c2390189-1881-417a-a608-fea04cebf0a8/",
+    image: "/certifficates/Complete Python With DSA Bootcamp LEETCODE Exercises.webp",
+  },
+  {
+    name: "100 Days of Code: The Complete Python Pro Bootcamp",
+    url: "https://www.udemy.com/certificate/UC-d913382c-396c-487e-ab2e-20d6807e1f00/",
+    image: "/certifficates/100 Days of Code The Complete Python Pro Bootcamp.webp",
   },
 ];
 

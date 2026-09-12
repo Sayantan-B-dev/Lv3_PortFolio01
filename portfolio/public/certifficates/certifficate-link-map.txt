@@ -1,0 +1,15 @@
+"Job Ready AI Powered Cohort Web  DSA  Aptitude" => "https://classroom.sheryians.com/certificate/1708853705220236"
+
+"The Web Developer Bootcamp 2026" => "https://www.udemy.com/certificate/UC-522fc92e-484b-408d-acc9-514fd997ba5c/"
+
+"The Complete Python Bootcamp From Zero to Hero in Python" => "https://www.udemy.com/certificate/UC-c778160d-4e6e-4e6e-a664-f93c1f60d93e/"
+
+"The Complete Full-Stack Web Development Bootcamp" => "https://www.udemy.com/certificate/UC-b18c98f0-980b-464b-ad26-f2606cd64bc9/"
+
+"Master the Coding Interview Data Structures Algorithms" => "https://www.udemy.com/certificate/UC-bfeb62ba-d794-4786-98b4-7eb78180aed8/"
+
+"JavaScript Understanding the Weird Parts" => "https://www.udemy.com/certificate/UC-4468e243-69e2-4161-a741-a271ac42bd57/"
+
+"Complete Python With DSA Bootcamp LEETCODE Exercises" => "https://www.udemy.com/certificate/UC-c2390189-1881-417a-a608-fea04cebf0a8/"
+
+"100 Days of Code The Complete Python Pro Bootcamp" => "https://www.udemy.com/certificate/UC-d913382c-396c-487e-ab2e-20d6807e1f00/"

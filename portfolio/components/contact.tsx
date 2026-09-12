@@ -3,9 +3,11 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ArrowUpRight, Mail, MapPin } from "lucide-react";
+import Image from "next/image";
 
 import { GithubIcon, LinkedinIcon } from "@/components/icons";
 import { FadeIn, LinesReveal } from "@/components/motion";
+import { Marquee } from "@/components/marquee";
 import { GridDistortion } from "@/components/grid-distortion";
 import { certifications, profile } from "@/lib/resume";
 
@@ -81,36 +83,42 @@ export function Contact() {
                 />
               </div>
             </FadeIn>
-
-            {/* Certifications */}
-            <FadeIn delay={0.1} className="contact-certs">
-              <p className="contact-label">
-                Certifications
-              </p>
-              <ul className="contact-certs__list">
-                {certifications.map((cert) => (
-                  <li key={cert.name}>
-                    <a
-                      href={cert.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="contact-certs__link"
-                    >
-                      <span className="contact-certs__name">
-                        {cert.name}
-                      </span>
-                      <span className="contact-certs__right">
-                        <span className="contact-certs__verify">
-                          Verify
-                        </span>
-                        <ArrowUpRight className="icon-5 contact-certs__arrow" aria-hidden="true" />
-                      </span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </FadeIn>
           </div>
+
+          {/* Certifications marquee */}
+          <FadeIn delay={0.1} className="contact-certs-block">
+            <p className="contact-label">
+              Certifications
+            </p>
+            <Marquee
+              speed={45}
+              items={certifications.map((cert) => (
+                <a
+                  key={cert.name}
+                  href={cert.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="cert-card"
+                  aria-label={`${cert.name} (verify certificate)`}
+                >
+                  <Image
+                    src={encodeURI(cert.image)}
+                    alt={cert.name}
+                    fill
+                    sizes="320px"
+                    className="cert-card__img"
+                  />
+                  <span className="cert-card__veil">
+                    <span className="cert-card__name">{cert.name}</span>
+                    <span className="cert-card__verify">
+                      Verify
+                      <ArrowUpRight className="icon-4" aria-hidden="true" />
+                    </span>
+                  </span>
+                </a>
+              ))}
+            />
+          </FadeIn>
         </div>
       </motion.div>
     </section>
