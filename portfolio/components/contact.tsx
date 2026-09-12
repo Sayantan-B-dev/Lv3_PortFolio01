@@ -3,13 +3,11 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ArrowUpRight, Mail, MapPin } from "lucide-react";
-import Image from "next/image";
 
 import { GithubIcon, LinkedinIcon } from "@/components/icons";
 import { FadeIn, LinesReveal } from "@/components/motion";
-import { Marquee } from "@/components/marquee";
 import { GridDistortion } from "@/components/grid-distortion";
-import { certifications, profile } from "@/lib/resume";
+import { profile } from "@/lib/resume";
 
 export function Contact() {
   const ref = useRef<HTMLElement>(null);
@@ -85,40 +83,7 @@ export function Contact() {
             </FadeIn>
           </div>
 
-          {/* Certifications marquee */}
-          <FadeIn delay={0.1} className="contact-certs-block">
-            <p className="contact-label">
-              Certifications
-            </p>
-            <Marquee
-              speed={45}
-              items={certifications.map((cert) => (
-                <a
-                  key={cert.name}
-                  href={cert.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="cert-card"
-                  aria-label={`${cert.name} (verify certificate)`}
-                >
-                  <Image
-                    src={encodeURI(cert.image)}
-                    alt={cert.name}
-                    fill
-                    sizes="320px"
-                    className="cert-card__img"
-                  />
-                  <span className="cert-card__veil">
-                    <span className="cert-card__name">{cert.name}</span>
-                    <span className="cert-card__verify">
-                      Verify
-                      <ArrowUpRight className="icon-4" aria-hidden="true" />
-                    </span>
-                  </span>
-                </a>
-              ))}
-            />
-          </FadeIn>
+          {/* Certifications now live as a ScrollStack under 04 */}
         </div>
       </motion.div>
     </section>

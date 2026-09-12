@@ -115,6 +115,21 @@
   color: var(--muted-foreground);
 }
 
+/* Certifications stack under the timeline */
+.exp-certs {
+  margin-top: 5rem;
+}
+@media (min-width: 1024px) {
+  .exp-certs { margin-top: 7rem; }
+}
+.exp-certs__label {
+  padding-left: 0;
+  margin-bottom: 2rem;
+}
+@media (min-width: 640px) {
+  .exp-certs__label { padding-left: 0; }
+}
+
 .exp-entry {
   position: relative;
   display: flex;

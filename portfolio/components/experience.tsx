@@ -2,9 +2,12 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 
 import { FadeIn, LinesReveal, Parallax } from "@/components/motion";
-import { education, experience } from "@/lib/resume";
+import { ScrollStack, ScrollStackItem } from "@/components/scroll-stack";
+import { certifications, education, experience } from "@/lib/resume";
 
 export function Experience() {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -111,6 +114,52 @@ export function Experience() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Certifications stack */}
+        <div className="exp-certs">
+          <p className="exp-group__label exp-certs__label">
+            <span>Certifications</span>
+            <span className="exp-group__count">{String(certifications.length).padStart(2, "0")}</span>
+          </p>
+          <ScrollStack itemDistance={60} itemScale={0.04} baseScale={0.88}>
+            {certifications.map((cert) => (
+              <ScrollStackItem key={cert.name}>
+                <a
+                  href={cert.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="stack-cert"
+                  aria-label={`${cert.name} (verify certificate)`}
+                >
+                  <span
+                    className="stack-cert__imgwrap"
+                    style={{
+                      position: "relative",
+                      display: "block",
+                      width: "100%",
+                      aspectRatio: "16 / 9",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <Image
+                      src={encodeURI(cert.image)}
+                      alt={cert.name}
+                      fill
+                      sizes="(max-width: 1024px) 90vw, 70vw"
+                    />
+                  </span>
+                  <span className="stack-cert__meta">
+                    <span className="stack-cert__name">{cert.name}</span>
+                    <span className="stack-cert__verify">
+                      Verify
+                      <ArrowUpRight className="icon-4" aria-hidden="true" />
+                    </span>
+                  </span>
+                </a>
+              </ScrollStackItem>
+            ))}
+          </ScrollStack>
         </div>
       </div>
     </section>
