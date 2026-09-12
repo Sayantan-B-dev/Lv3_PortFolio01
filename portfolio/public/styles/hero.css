@@ -310,6 +310,8 @@
 .hero__chip--1 { top: 30%; right: -0.75rem; }
 .hero__chip--2 { bottom: 20%; left: -1.25rem; }
 .hero__chip--3 { bottom: 8%; right: -1.25rem; }
+.hero__chip--4 { top: 52%; left: -1.5rem; }
+.hero__chip--5 { top: 55%; right: -1.5rem; }
 
 /* Mini playground panel: bare thin look, top-center, no background */
 .globe-tune {

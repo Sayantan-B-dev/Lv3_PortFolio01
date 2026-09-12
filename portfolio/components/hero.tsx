@@ -188,6 +188,12 @@ export function Hero() {
               <div className="hero__chip hero__chip--3">
                 <Chip className="float-y" delay="-0.8s">{chips[3]}</Chip>
               </div>
+              <div className="hero__chip hero__chip--4">
+                <Chip className="float-y" delay="-2s">{chips[4]}</Chip>
+              </div>
+              <div className="hero__chip hero__chip--5">
+                <Chip className="float-y" delay="-3.1s">{chips[5]}</Chip>
+              </div>
               {/* mini tune panel with fun params, right on the box */}
               <div className="globe-tune">
                 <div className="globe-tune__head">

@@ -9,7 +9,7 @@ export const profile = {
   linkedin: "https://linkedin.com/in/sayantan-bharati-6b1b77205/",
   github: "https://github.com/Sayantan-B-dev",
   summary:
-    "Full Stack Web Developer with hands-on experience building production-ready MERN stack applications. Skilled in designing scalable REST APIs, implementing secure authentication flows, and delivering responsive, user-focused UIs. Focused on clean architecture, maintainable code, and practical solutions.",
+    "Full Stack Web Developer with experience in the MERN stack and building responsive, user-friendly web applications. Focused on writing clean, maintainable code, creating efficient workflows, and developing practical solutions that make a real difference.",
 };
 
 export const projects = [
@@ -32,7 +32,7 @@ export const projects = [
     ],
     features: [
       "Session-based auth (Passport local + Google OAuth) with profile & social features",
-      "Markdown-supported notes with synchronized scroll, category/tag system, file uploads",
+      "Markdown + math notes with synchronized scroll, category/tag system, file uploads",
       "Public/private notes, exports, and a modern responsive UI",
     ],
   },
@@ -46,6 +46,7 @@ export const projects = [
       "React 19",
       "TypeScript",
       "MongoDB",
+      "Mongoose",
       "Redis",
       "NextAuth",
       "Tailwind CSS 4",
@@ -72,12 +73,12 @@ export const projects = [
       "D3.js",
       "JWT",
       "Cloudinary",
-      "OpenRouter",
+      "Groq AI",
     ],
     features: [
       "Zero-dependency Canvas particle physics engine (5–300 particles, 60fps, mouse interaction)",
-      "Recursive nested comments (10-level depth), hot-feed ranking, follow/block system",
-      "OG/JSON-LD/oEmbed parsing, suggestive text generation via OpenRouter API",
+      "Recursive nested comments (10-level depth), hot-feed ranking, leaderboard, follow/block system",
+      "OG/JSON-LD/oEmbed parsing, Groq AI tag suggestions, concurrent bulk upload, admin analytics",
       "JWT + Google OAuth, CSRF state, rate limiting, 100% parameterized SQL",
     ],
   },
@@ -88,7 +89,7 @@ export const education = [
     degree: "Diploma in Computer Science & Technology",
     school: "Kingston Educational Institute",
     period: "2024 – 2026",
-    detail: "OGPA: 9.2",
+    detail: "OGPA 9.2: DSA, Python, Java, OS, DBMS, CN, AI/ML, IoT",
     status: "Completed",
   },
   {
@@ -177,6 +178,10 @@ export const skills = {
     "Render",
     "MongoDB Atlas",
     "Razorpay",
+    "Resend",
+    "Postman",
+    "PHP",
+    "MySQL",
     "Nodemailer",
     "Python",
   ],
