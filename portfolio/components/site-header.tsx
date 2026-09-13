@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 import { GithubIcon, LinkedinIcon } from "@/components/icons";
 import { navLinks, profile } from "@/lib/resume";
@@ -10,6 +11,8 @@ export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string | null>(null);
+  const pathname = usePathname();
+  const onHome = pathname === "/";
   const navRef = useRef<HTMLElement>(null);
   const linkRefs = useRef(new Map<string, HTMLAnchorElement>());
   const [pill, setPill] = useState({ left: 0, width: 0, show: false });
@@ -75,7 +78,7 @@ export function SiteHeader() {
     <header className={scrolled || open ? "site-header site-header--scrolled" : "site-header"}>
       <div className="site-header__inner">
         {/* monogram */}
-        <a href="#top" className="site-header__brand" onClick={() => setOpen(false)}>
+        <a href={onHome ? "#top" : "/"} className="site-header__brand" onClick={() => setOpen(false)}>
           <span className="site-header__brand-name">Sayantan</span>
           <span className="site-header__brand-accent">
             B dev
@@ -129,6 +132,12 @@ export function SiteHeader() {
             <LinkedinIcon className="icon-4" />
           </a>
           <a
+            href="/blog"
+            className="site-header__blog"
+          >
+            Blog
+          </a>
+          <a
             href="#contact"
             className="site-header__cta"
           >
@@ -164,6 +173,14 @@ export function SiteHeader() {
               {link.label}
             </a>
           ))}
+          <a
+            href="/blog"
+            className="site-header__mobile-link"
+            onClick={() => setOpen(false)}
+          >
+            <span className="site-header__nav-index">06</span>
+            Blog
+          </a>
           <a
             href="#contact"
             className="site-header__mobile-cta"

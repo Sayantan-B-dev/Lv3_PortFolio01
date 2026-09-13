@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { SmoothScroll } from "@/components/smooth-scroll";
+import { SiteHeader } from "@/components/site-header";
+import { Footer } from "@/components/footer";
 import { GlowCursor } from "@/components/glow-cursor";
 import "./globals.css";
 
@@ -73,7 +75,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           maxDevicePixelRatio={1}
           className="glow-cursor--fullscreen"
         /> */}
-        <SmoothScroll>{children}</SmoothScroll>
+        <SmoothScroll>
+          <SiteHeader />
+          {children}
+          <Footer />
+        </SmoothScroll>
       </body>
     </html>
   );

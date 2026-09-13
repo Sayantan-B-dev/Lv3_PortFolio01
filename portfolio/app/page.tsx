@@ -1,19 +1,15 @@
 import { About } from "@/components/about";
 import { Contact } from "@/components/contact";
 import { Experience } from "@/components/experience";
-import { Footer } from "@/components/footer";
 import { Hero } from "@/components/hero";
 import { Marquee } from "@/components/marquee";
 import { Projects } from "@/components/projects";
-import { SiteHeader } from "@/components/site-header";
 import { Skills } from "@/components/skills";
 import { CurvySeparator } from "@/components/curvy-separator";
-import { DragScrollSidebar } from "@/components/gold-card";
 
 export default function Home() {
   return (
     <>
-      <SiteHeader />
       <main className="page-main">
         <div className="hero-shell">
           <Hero />
@@ -48,8 +44,6 @@ export default function Home() {
         <Experience />
         <CurvySeparator seed={4} />
         <Contact />
-
-        <Footer />
       </main>
     </>
   );

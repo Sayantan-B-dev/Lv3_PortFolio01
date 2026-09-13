@@ -162,6 +162,28 @@
   .site-header__cta { display: inline-block; }
 }
 
+/* Blog pill next to Hire me */
+.site-header__blog {
+  margin-left: 0.5rem;
+  display: none;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklch, var(--border) 80%, transparent);
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  transition: color 0.3s, border-color 0.3s, transform 0.3s;
+}
+.site-header__blog:hover {
+  color: var(--foreground);
+  border-color: color-mix(in oklch, var(--primary) 60%, transparent);
+  transform: scale(1.05);
+}
+.site-header__blog:active { transform: scale(0.95); }
+@media (min-width: 640px) {
+  .site-header__blog { display: inline-block; }
+}
+
 /* Hamburger: only below lg */
 .site-header__burger {
   display: inline-flex;

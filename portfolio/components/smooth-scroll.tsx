@@ -61,12 +61,26 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
 
     // Anchor links -> manual glide
     const handleClick = (event: MouseEvent) => {
-      const anchor = (event.target as HTMLElement).closest?.('a[href^="#"]');
+      const anchor = (event.target as HTMLElement).closest?.('a[href^="#"],a[href^="/#"]');
       if (!anchor) return;
       const href = (anchor as HTMLAnchorElement).getAttribute("href");
-      if (!href || href === "#") return;
-      const el = document.querySelector(href);
-      if (!el) return;
+      if (!href) return;
+      const hashIndex = href.indexOf("#");
+      if (hashIndex === -1) return;
+      const hash = href.slice(hashIndex);
+      if (!hash || hash === "#") return;
+      const el = document.querySelector(hash);
+      if (!el) {
+        // Target lives on another page: back-to-top still glides home here,
+        // anything else navigates home and lets the native anchor land.
+        event.preventDefault();
+        if (hash === "#top") {
+          flyTo(0, 2);
+        } else {
+          window.location.href = `/${hash}`;
+        }
+        return;
+      }
       event.preventDefault();
       // make sure a stuck body lock (mobile menu) never traps the flight
       document.body.style.overflow = "";
@@ -75,7 +89,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
         (el as HTMLElement).getBoundingClientRect().top + window.scrollY - 72
       );
       const dist = Math.abs(dest - window.scrollY);
-      const duration = href === "#top" ? 2 : Math.min(2.5, Math.max(1, dist / 1400));
+      const duration = hash === "#top" ? 2 : Math.min(2.5, Math.max(1, dist / 1400));
       flyTo(dest, duration);
     };
 
