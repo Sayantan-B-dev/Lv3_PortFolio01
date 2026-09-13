@@ -284,6 +284,21 @@
   border-color: color-mix(in oklch, var(--primary) 45%, transparent);
 }
 .admin-mdbar button:active { transform: scale(0.94); }
+.admin-mdbar button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.admin-mdbar button:disabled:hover {
+  color: var(--muted-foreground);
+  background: transparent;
+  border-color: transparent;
+}
+.admin-mdbar__sep {
+  width: 1px;
+  align-self: stretch;
+  margin: 0.25rem 0.15rem;
+  background: color-mix(in oklch, var(--foreground) 18%, transparent);
+}
 
 /* Publish-now checkbox */
 .admin-check {

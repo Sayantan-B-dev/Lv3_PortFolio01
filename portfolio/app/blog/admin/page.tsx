@@ -393,9 +393,76 @@ function Editor({
   const [preview, setPreview] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const [sessionUploads, setSessionUploads] = useState<string[]>([]);
+  const [pastCount, setPastCount] = useState(0);
+  const [futureCount, setFutureCount] = useState(0);
   const fileRef = useRef<HTMLInputElement>(null);
   const mdRef = useRef<HTMLTextAreaElement>(null);
+  const pastRef = useRef<string[]>([]);
+  const futureRef = useRef<string[]>([]);
+  const snapTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Baseline snapshot so the very first undo returns to the opened text.
+  // 15 steps max on each side.
+  useEffect(() => {
+    pastRef.current = [initial?.markdown ?? ""];
+    futureRef.current = [];
+    setPastCount(1);
+    setFutureCount(0);
+    return () => {
+      if (snapTimer.current) clearTimeout(snapTimer.current);
+    };
+  }, []);
+
+  const syncHistoryCounts = () => {
+    setPastCount(pastRef.current.length);
+    setFutureCount(futureRef.current.length);
+  };
+
+  const pushPast = (value: string) => {
+    const stack = pastRef.current;
+    if (stack[stack.length - 1] === value) {
+      syncHistoryCounts();
+      return;
+    }
+    pastRef.current = [...stack, value].slice(-15);
+    futureRef.current = [];
+    syncHistoryCounts();
+  };
+
+  /** Snapshot typing pauses as undo steps (immediate edits push at once). */
+  const scheduleSnapshot = (value: string) => {
+    futureRef.current = [];
+    if (snapTimer.current) clearTimeout(snapTimer.current);
+    snapTimer.current = setTimeout(() => {
+      const stack = pastRef.current;
+      if (stack[stack.length - 1] !== value) {
+        pastRef.current = [...stack, value].slice(-15);
+      }
+      syncHistoryCounts();
+    }, 900);
+  };
+
+  const undoMd = () => {
+    const stack = pastRef.current;
+    if (stack.length === 0) return;
+    futureRef.current = [...futureRef.current, markdown].slice(-15);
+    const top = stack[stack.length - 1];
+    pastRef.current = stack.slice(0, -1);
+    setMarkdown(top);
+    syncHistoryCounts();
+    mdRef.current?.focus();
+  };
+
+  const redoMd = () => {
+    const stack = futureRef.current;
+    if (stack.length === 0) return;
+    pastRef.current = [...pastRef.current, markdown].slice(-15);
+    const top = stack[stack.length - 1];
+    futureRef.current = stack.slice(0, -1);
+    setMarkdown(top);
+    syncHistoryCounts();
+    mdRef.current?.focus();
+  };
   /** Wrap the selection (or a placeholder) with a markdown pair. */
   const surround = (before: string, after: string, placeholder = "text") => {
     const el = mdRef.current;
@@ -403,6 +470,7 @@ function Editor({
     const s = el.selectionStart ?? markdown.length;
     const e = el.selectionEnd ?? markdown.length;
     const sel = markdown.slice(s, e) || placeholder;
+    pushPast(markdown);
     setMarkdown(markdown.slice(0, s) + before + sel + after + markdown.slice(e));
     requestAnimationFrame(() => {
       el.focus();
@@ -416,6 +484,7 @@ function Editor({
     if (!el) return;
     const s = el.selectionStart ?? markdown.length;
     const e = el.selectionEnd ?? markdown.length;
+    pushPast(markdown);
     if (s === e) {
       const lineStart = markdown.lastIndexOf("\n", s - 1) + 1;
       const insert = `${makePrefix(0)}${freshLine}`;
@@ -443,6 +512,7 @@ function Editor({
     const el = mdRef.current;
     const at = el?.selectionStart ?? markdown.length;
     const chunk = `\n\n${block}\n\n`;
+    pushPast(markdown);
     setMarkdown(`${markdown.slice(0, at)}${chunk}${markdown.slice(at)}`);
     requestAnimationFrame(() => el?.focus());
   };
@@ -649,6 +719,23 @@ function Editor({
           <label className="admin-field">
             <span>Markdown (`#`, `##`, ``` code supported)</span>
             <div className="admin-mdbar" role="toolbar" aria-label="Markdown formatting">
+              <button
+                type="button"
+                title={`Undo (${pastCount}/15)`}
+                disabled={pastCount === 0}
+                onClick={undoMd}
+              >
+                ↺
+              </button>
+              <button
+                type="button"
+                title={`Redo (${futureCount}/15)`}
+                disabled={futureCount === 0}
+                onClick={redoMd}
+              >
+                ↻
+              </button>
+              <span className="admin-mdbar__sep" aria-hidden="true" />
               {mdTools.map((tool) => (
                 <button key={tool.label} type="button" title={tool.hint} onClick={tool.run}>
                   {tool.label}
@@ -658,7 +745,22 @@ function Editor({
             <textarea
               ref={mdRef}
               value={markdown}
-              onChange={(e) => setMarkdown(e.target.value)}
+              onChange={(e) => {
+                setMarkdown(e.target.value);
+                scheduleSnapshot(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                const mod = e.ctrlKey || e.metaKey;
+                if (!mod) return;
+                const key = e.key.toLowerCase();
+                if (key === "z" && !e.shiftKey) {
+                  e.preventDefault();
+                  undoMd();
+                } else if (key === "y" || (key === "z" && e.shiftKey)) {
+                  e.preventDefault();
+                  redoMd();
+                }
+              }}
               rows={14}
               spellCheck={false}
               data-lenis-prevent
