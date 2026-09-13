@@ -394,6 +394,73 @@ function Editor({
   const [dragOver, setDragOver] = useState(false);
   const [sessionUploads, setSessionUploads] = useState<string[]>([]);
   const fileRef = useRef<HTMLInputElement>(null);
+  const mdRef = useRef<HTMLTextAreaElement>(null);
+
+  /** Wrap the selection (or a placeholder) with a markdown pair. */
+  const surround = (before: string, after: string, placeholder = "text") => {
+    const el = mdRef.current;
+    if (!el) return;
+    const s = el.selectionStart ?? markdown.length;
+    const e = el.selectionEnd ?? markdown.length;
+    const sel = markdown.slice(s, e) || placeholder;
+    setMarkdown(markdown.slice(0, s) + before + sel + after + markdown.slice(e));
+    requestAnimationFrame(() => {
+      el.focus();
+      el.setSelectionRange(s + before.length, s + before.length + sel.length);
+    });
+  };
+
+  /** Prefix every selected line (or insert a fresh line at the caret). */
+  const prefixLines = (makePrefix: (index: number) => string, freshLine: string) => {
+    const el = mdRef.current;
+    if (!el) return;
+    const s = el.selectionStart ?? markdown.length;
+    const e = el.selectionEnd ?? markdown.length;
+    if (s === e) {
+      const lineStart = markdown.lastIndexOf("\n", s - 1) + 1;
+      const insert = `${makePrefix(0)}${freshLine}`;
+      setMarkdown(`${markdown.slice(0, lineStart)}${insert}\n${markdown.slice(s)}`);
+      requestAnimationFrame(() => {
+        el.focus();
+        const pos = lineStart + insert.length + 1;
+        el.setSelectionRange(pos, pos);
+      });
+      return;
+    }
+    const blockStart = markdown.lastIndexOf("\n", s - 1) + 1;
+    let blockEnd = markdown.indexOf("\n", e);
+    if (blockEnd === -1) blockEnd = markdown.length;
+    const stamped = markdown
+      .slice(blockStart, blockEnd)
+      .split("\n")
+      .map((line, i) => `${makePrefix(i)}${line}`)
+      .join("\n");
+    setMarkdown(markdown.slice(0, blockStart) + stamped + markdown.slice(blockEnd));
+    requestAnimationFrame(() => el.focus());
+  };
+
+  const insertBlock = (block: string) => {
+    const el = mdRef.current;
+    const at = el?.selectionStart ?? markdown.length;
+    const chunk = `\n\n${block}\n\n`;
+    setMarkdown(`${markdown.slice(0, at)}${chunk}${markdown.slice(at)}`);
+    requestAnimationFrame(() => el?.focus());
+  };
+
+  const mdTools: { label: string; hint: string; run: () => void }[] = [
+    { label: "B", hint: "Bold (**text**)", run: () => surround("**", "**") },
+    { label: "I", hint: "Italic (*text*)", run: () => surround("*", "*") },
+    { label: "</>", hint: "Inline code (`code`)", run: () => surround("`", "`") },
+    { label: "H1", hint: "Heading 1 (# )", run: () => prefixLines(() => "# ", "Heading") },
+    { label: "H2", hint: "Heading 2 (## )", run: () => prefixLines(() => "## ", "Heading") },
+    { label: "H3", hint: "Heading 3 (### )", run: () => prefixLines(() => "### ", "Heading") },
+    { label: "❝", hint: "Quote (> ) — nest >> for amber", run: () => prefixLines(() => "> ", "Quoted line") },
+    { label: "•", hint: "Bulleted list (- )", run: () => prefixLines(() => "- ", "Item") },
+    { label: "1.", hint: "Numbered list", run: () => prefixLines((i) => `${i + 1}. `, "Item") },
+    { label: "🔗", hint: "Link ([label](url))", run: () => surround("[", "](https://)", "label") },
+    { label: "{ }", hint: "Code block (```)", run: () => insertBlock("```\ncode\n```") },
+    { label: "—", hint: "Divider (---)", run: () => insertBlock("---") },
+  ];
 
   /** Fire-and-forget orphan cleanup: never blocks the UI. */
   const destroyOrphans = (ids: string[]) => {
@@ -581,7 +648,15 @@ function Editor({
           </div>
           <label className="admin-field">
             <span>Markdown (`#`, `##`, ``` code supported)</span>
+            <div className="admin-mdbar" role="toolbar" aria-label="Markdown formatting">
+              {mdTools.map((tool) => (
+                <button key={tool.label} type="button" title={tool.hint} onClick={tool.run}>
+                  {tool.label}
+                </button>
+              ))}
+            </div>
             <textarea
+              ref={mdRef}
               value={markdown}
               onChange={(e) => setMarkdown(e.target.value)}
               rows={14}

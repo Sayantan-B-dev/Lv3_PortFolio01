@@ -256,6 +256,35 @@
   letter-spacing: normal;
 }
 
+/* Markdown formatting toolbar */
+.admin-mdbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0.5rem;
+  border-radius: 0.6rem;
+  border: 1.5px solid color-mix(in oklch, var(--foreground) 22%, transparent);
+  background: color-mix(in oklch, var(--card) 50%, transparent);
+}
+.admin-mdbar button {
+  min-width: 2.1rem;
+  padding: 0.35rem 0.55rem;
+  border-radius: 0.45rem;
+  border: 1px solid transparent;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s, border-color 0.2s;
+}
+.admin-mdbar button:hover {
+  color: var(--primary);
+  background: color-mix(in oklch, var(--primary) 12%, transparent);
+  border-color: color-mix(in oklch, var(--primary) 45%, transparent);
+}
+.admin-mdbar button:active { transform: scale(0.94); }
+
 /* Publish-now checkbox */
 .admin-check {
   display: flex !important;
