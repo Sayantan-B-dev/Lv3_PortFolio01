@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Eye, EyeOff, ImagePlus } from "lucide-react";
+import { Eye, EyeOff, ImagePlus, LockKeyhole } from "lucide-react";
+import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -169,10 +170,21 @@ export default function AdminStudio() {
                         <span className={post.visibility === "private" ? "blog-badge" : "admin-visibility"}>
                           {post.visibility}
                         </span>
+                        {post.visibility === "public" && new Date(post.publishAt).getTime() > Date.now() ? (
+                          <span className="blog-badge">Scheduled</span>
+                        ) : null}
                         <span>{post.slug}</span>
                       </span>
                     </span>
                     <span className="admin-row__actions">
+                      <Link
+                        href={`/blog/${post.slug}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="admin-btn"
+                      >
+                        Visit
+                      </Link>
                       <button
                         type="button"
                         className="admin-btn"
