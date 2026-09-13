@@ -332,7 +332,19 @@ function Editor({
   const [saving, setSaving] = useState(false);
   const [preview, setPreview] = useState(false);
   const [dragOver, setDragOver] = useState(false);
+  const [sessionUploads, setSessionUploads] = useState<string[]>([]);
   const fileRef = useRef<HTMLInputElement>(null);
+
+  /** Fire-and-forget orphan cleanup: never blocks the UI. */
+  const destroyOrphans = (ids: string[]) => {
+    ids
+      .filter(Boolean)
+      .forEach((id) =>
+        fetch(`/api/admin/upload?publicId=${encodeURIComponent(id)}`, { method: "DELETE" }).catch(
+          () => {}
+        )
+      );
+  };
 
   const upload = async (file: File) => {
     setUploading(true);
@@ -345,6 +357,7 @@ function Editor({
       });
       setImageUrl(data.url);
       setImagePublicId(data.publicId);
+      setSessionUploads((prev) => [...prev, data.publicId]);
     } catch (err) {
       onError(err instanceof Error ? err.message : "Upload failed.");
     } finally {
@@ -389,12 +402,22 @@ function Editor({
           body: JSON.stringify(payload),
         });
       }
+      // Anything uploaded but superseded before saving is an orphan now.
+      destroyOrphans(sessionUploads.filter((id) => id !== imagePublicId));
       onSaved();
     } catch (err) {
       onError(err instanceof Error ? err.message : "Save failed.");
     } finally {
       setSaving(false);
     }
+  };
+
+  const cancel = () => {
+    // Unsaved session uploads die here. The previously saved cover
+    // (initial?.imagePublicId) is never touched, so cancelling an edit
+    // always restores the exact previous state.
+    destroyOrphans(sessionUploads.filter((id) => id !== initial?.imagePublicId));
+    onClose();
   };
 
   return (
@@ -405,7 +428,7 @@ function Editor({
           <button type="button" className="admin-btn" onClick={() => setPreview((v) => !v)}>
             {preview ? "Edit" : "Preview"}
           </button>
-          <button type="button" className="admin-btn" onClick={onClose}>
+          <button type="button" className="admin-btn" onClick={cancel}>
             Cancel
           </button>
           <button
