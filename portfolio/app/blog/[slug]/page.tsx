@@ -3,10 +3,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
 import type { Metadata } from "next";
+import { cache } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/auth";
+import { PLACEHOLDER_IMAGE } from "@/lib/blog";
 import { postsCollection } from "@/lib/mongo";
 
 export const dynamic = "force-dynamic";
@@ -97,17 +99,15 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
               ))}
             </div>
           ) : null}
-          {doc.imageUrl ? (
-            <span className="blog-post__imgwrap">
-              <Image
-                src={doc.imageUrl}
-                alt={doc.title}
-                fill
-                priority
-                sizes="(max-width: 1024px) 90vw, 60vw"
-              />
-            </span>
-          ) : null}
+          <span className="blog-post__imgwrap">
+            <Image
+              src={doc.imageUrl || PLACEHOLDER_IMAGE}
+              alt={doc.title}
+              fill
+              priority
+              sizes="(max-width: 1024px) 90vw, 60vw"
+            />
+          </span>
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(postJsonLd) }}

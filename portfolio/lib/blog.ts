@@ -5,6 +5,10 @@ import type { ObjectId } from "mongodb";
 
 export type Visibility = "public" | "private";
 
+/** Shown whenever a post has no cover image yet. */
+export const PLACEHOLDER_IMAGE =
+  "https://imgs.search.brave.com/UaGneFC96IeZmvrWigTNl5LJlJxtoEQ3f1Bx8R7MUAg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzIwLzIxLzk5Lzgz/LzM2MF9GXzIwMjE5/OTgzMzJfSXJLbzVk/QUpkVFRhclR5TUVh/RkRkbkdUcjJ6UU9J/aVcuanBn";
+
 export interface BlogLink {
   label: string;
   url: string;

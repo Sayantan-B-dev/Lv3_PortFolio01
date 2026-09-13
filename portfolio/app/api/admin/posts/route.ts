@@ -36,15 +36,13 @@ export async function POST(req: NextRequest) {
 
   const imageUrl =
     body && typeof body === "object" && typeof (body as Record<string, unknown>).imageUrl === "string"
-      ? ((body as Record<string, unknown>).imageUrl as string)
+      ? ((body as Record<string, unknown>).imageUrl as string).slice(0, 2000)
       : "";
   const imagePublicId =
     body && typeof body === "object" && typeof (body as Record<string, unknown>).imagePublicId === "string"
-      ? ((body as Record<string, unknown>).imagePublicId as string)
+      ? ((body as Record<string, unknown>).imagePublicId as string).slice(0, 500)
       : "";
-  if (!imageUrl || !imagePublicId) {
-    return NextResponse.json({ ok: false, error: "A cover image upload is required." }, { status: 400 });
-  }
+  // Cover is optional: posts without one show a placeholder until edited.
 
   const posts = await postsCollection();
   const now = new Date().toISOString();

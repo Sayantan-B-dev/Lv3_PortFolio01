@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 
 import { BlogSearch } from "@/components/blog-search";
+import { PLACEHOLDER_IMAGE } from "@/lib/blog";
 import { postsCollection } from "@/lib/mongo";
 
 export const dynamic = "force-dynamic";
@@ -108,14 +109,13 @@ export default async function BlogIndex({
                 style={{ animationDelay: `${Math.min(i, 8) * 0.07}s` }}
               >
                 <span className="blog-card__imgwrap">
-                  {doc.imageUrl ? (
-                    <Image
-                      src={doc.imageUrl}
-                      alt={String(doc.title)}
-                      fill
-                      sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
-                    />
-                  ) : null}
+                  <Image
+                    src={doc.imageUrl || PLACEHOLDER_IMAGE}
+                    alt={String(doc.title)}
+                    fill
+                    sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
+                    priority={i === 0}
+                  />
                 </span>
                 <span className="blog-card__body">
                   <span className="blog-card__meta">

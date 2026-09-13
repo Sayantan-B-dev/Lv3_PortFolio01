@@ -34,11 +34,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if (!existing) return NextResponse.json({ ok: false, error: "Not found." }, { status: 404 });
 
   const record = (body ?? {}) as Record<string, unknown>;
-  const imageUrl = typeof record.imageUrl === "string" ? record.imageUrl : "";
-  const imagePublicId = typeof record.imagePublicId === "string" ? record.imagePublicId : "";
-  if (!imageUrl || !imagePublicId) {
-    return NextResponse.json({ ok: false, error: "A cover image upload is required." }, { status: 400 });
-  }
+  const imageUrl = typeof record.imageUrl === "string" ? record.imageUrl.slice(0, 2000) : "";
+  const imagePublicId =
+    typeof record.imagePublicId === "string" ? record.imagePublicId.slice(0, 500) : "";
 
   const now = new Date().toISOString();
   // Single-document update: atomic (ACID) by itself.
