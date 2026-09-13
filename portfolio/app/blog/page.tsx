@@ -115,6 +115,7 @@ export default async function BlogIndex({
                     fill
                     sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
                     priority={i === 0}
+                    fetchPriority={i === 0 ? "high" : "auto"}
                   />
                 </span>
                 <span className="blog-card__body">
