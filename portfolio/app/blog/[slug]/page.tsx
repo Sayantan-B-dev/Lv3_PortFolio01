@@ -25,10 +25,14 @@ function readingMinutes(markdown: string): number {
   return Math.max(1, Math.round(words / 200));
 }
 
-async function getPost(slug: string) {
+async function fetchPost(slug: string) {
   const posts = await postsCollection();
+  // Single indexed lookup (unique slug index): O(1) no matter how many posts exist.
   return posts.findOne({ slug });
 }
+
+// Cached per request: metadata + page share one DB hit instead of two.
+const getPost = cache(fetchPost);
 
 async function isAdmin(): Promise<boolean> {
   const jar = await cookies();
