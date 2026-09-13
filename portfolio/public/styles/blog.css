@@ -293,6 +293,9 @@
 }
 .blog-md hr { border-top: 1px solid var(--border); }
 .blog-md table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
   width: 100%;
   border-collapse: collapse;
   font-size: 0.9rem;

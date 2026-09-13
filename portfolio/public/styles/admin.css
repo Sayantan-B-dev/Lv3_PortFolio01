@@ -34,14 +34,16 @@
   position: relative;
   padding: 0.6rem 0.9rem;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.78rem;
+  font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--muted-foreground);
+  color: var(--foreground);
+  background: transparent;
   cursor: pointer;
   transition: color 0.25s;
 }
-.admin-tab:hover { color: var(--foreground); }
+.admin-tab:hover { color: var(--primary); }
 .admin-tab--active { color: var(--foreground); }
 .admin-tab--active::after {
   content: "";
@@ -138,6 +140,7 @@
 .admin-visibility { text-transform: uppercase; letter-spacing: 0.1em; }
 .admin-row__actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
 }
 
@@ -362,12 +365,14 @@
 }
 .admin-attempts__row {
   display: flex;
-  gap: 1rem;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
   padding: 0.4rem 0;
   font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--muted-foreground);
   border-top: 1px solid color-mix(in oklch, var(--border) 40%, transparent);
+  overflow-wrap: anywhere;
 }
 .admin-attempts__ok { color: oklch(0.65 0.14 160); }
 .admin-attempts__bad { color: var(--destructive); }
