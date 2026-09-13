@@ -270,12 +270,29 @@
   text-underline-offset: 3px;
 }
 .blog-md blockquote {
-  border-left: 2px solid color-mix(in oklch, var(--primary) 60%, transparent);
-  padding-left: 1.25rem;
+  border: 1px solid color-mix(in oklch, var(--primary) 40%, transparent);
+  border-left: 4px solid var(--primary);
+  border-radius: 0 0.8rem 0.8rem 0;
+  background:
+    linear-gradient(120deg, color-mix(in oklch, var(--primary) 14%, transparent), transparent 70%),
+    color-mix(in oklch, var(--card) 50%, transparent);
+  box-shadow: 0 16px 45px -25px oklch(0.69 0.16 289 / 0.5);
+  padding: 1rem 1.25rem;
   font-family: var(--font-serif);
   font-style: italic;
   font-size: 1.15rem;
-  color: var(--muted-foreground);
+  color: var(--foreground);
+}
+/* nested >> quotes get their own amber shade */
+.blog-md blockquote blockquote {
+  margin-top: 0.85rem;
+  border-color: color-mix(in oklch, oklch(0.75 0.16 65) 40%, transparent);
+  border-left: 4px solid oklch(0.75 0.16 65);
+  background:
+    linear-gradient(120deg, oklch(0.75 0.16 65 / 0.12), transparent 70%),
+    color-mix(in oklch, var(--card) 50%, transparent);
+  box-shadow: 0 16px 45px -25px oklch(0.75 0.16 65 / 0.4);
+  color: var(--foreground);
 }
 .blog-md code {
   font-family: var(--font-mono);
