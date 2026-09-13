@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 
+import { BlogSearch } from "@/components/blog-search";
 import { postsCollection } from "@/lib/mongo";
 
 export const dynamic = "force-dynamic";
@@ -11,13 +13,21 @@ export const metadata = {
     "Notes on full-stack development: MERN, Next.js, TypeScript, databases and shipping real products.",
 };
 
-async function getPosts(tag: string) {
+function escapeRegex(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+async function getPosts(tag: string, q: string) {
   const posts = await postsCollection();
   const filter: Record<string, unknown> = {
     visibility: "public",
     publishAt: { $lte: new Date().toISOString() },
   };
   if (tag) filter.tags = tag;
+  if (q) {
+    const rx = { $regex: escapeRegex(q), $options: "i" };
+    filter.$or = [{ title: rx }, { description: rx }];
+  }
   return posts.find(filter, { sort: { publishAt: -1, createdAt: -1 }, limit: 100 }).toArray();
 }
 
@@ -39,11 +49,12 @@ function formatDate(iso: string): string {
 export default async function BlogIndex({
   searchParams,
 }: {
-  searchParams: Promise<{ tag?: string }>;
+  searchParams: Promise<{ tag?: string; q?: string }>;
 }) {
-  const { tag: rawTag } = await searchParams;
+  const { tag: rawTag, q: rawQ } = await searchParams;
   const tag = (rawTag ?? "").trim().toLowerCase().slice(0, 30);
-  const [docs, tags] = await Promise.all([getPosts(tag), getTags()]);
+  const q = (rawQ ?? "").trim().slice(0, 80);
+  const [docs, tags] = await Promise.all([getPosts(tag, q), getTags()]);
   const sortedTags = (tags as string[]).filter(Boolean).sort();
 
   return (
@@ -79,9 +90,13 @@ export default async function BlogIndex({
           </div>
         )}
 
+        <Suspense>
+          <BlogSearch />
+        </Suspense>
+
         {docs.length === 0 ? (
           <p className="blog-empty">
-            {tag ? `Nothing tagged "${tag}" yet.` : "First post is on its way."}
+            {tag || q ? "Nothing matches. Try clearing the filters." : "First post is on its way."}
           </p>
         ) : (
           <div className="blog-grid">

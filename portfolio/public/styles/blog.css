@@ -51,6 +51,27 @@
   color: var(--foreground);
 }
 
+.blog-search {
+  margin-top: 1.25rem;
+  display: flex;
+  gap: 0.6rem;
+  max-width: 28rem;
+}
+.blog-search input {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 0.9rem;
+  color: var(--foreground);
+  border-radius: 0.6rem;
+  border: 1px solid color-mix(in oklch, var(--border) 70%, transparent);
+  background: color-mix(in oklch, var(--card) 40%, transparent);
+  padding: 0.55rem 0.9rem;
+}
+.blog-search input:focus {
+  outline: none;
+  border-color: color-mix(in oklch, var(--primary) 60%, transparent);
+}
+
 .blog-empty {
   margin-top: 3rem;
   font-family: var(--font-serif);

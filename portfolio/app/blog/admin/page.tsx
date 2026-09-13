@@ -52,12 +52,21 @@ async function api<T>(url: string, init?: RequestInit): Promise<T> {
 export default function AdminStudio() {
   const [status, setStatus] = useState<Status>("checking");
   const [posts, setPosts] = useState<AdminPost[]>([]);
+  const [attempts, setAttempts] = useState<{ ip: string; success: boolean; createdAt: string }[]>([]);
   const [editingId, setEditingId] = useState<string | "new" | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
     const data = await api<{ items: AdminPost[] }>("/api/admin/posts");
     setPosts(data.items);
+    try {
+      const log = await api<{ items: { ip: string; success: boolean; createdAt: string }[] }>(
+        "/api/admin/attempts"
+      );
+      setAttempts(log.items);
+    } catch {
+      setAttempts([]);
+    }
   }, []);
 
   useEffect(() => {
@@ -182,6 +191,27 @@ export default function AdminStudio() {
                 {posts.length === 0 ? <p className="blog-empty">No posts yet. Write the first one.</p> : null}
               </ul>
             )}
+
+            <details className="admin-attempts">
+              <summary className="admin-attempts__summary">
+                Recent login attempts ({attempts.filter((a) => !a.success).length} failed)
+              </summary>
+              <ul className="admin-attempts__list">
+                {attempts.length === 0 ? (
+                  <li className="admin-attempts__row">No attempts logged yet.</li>
+                ) : (
+                  attempts.map((a, i) => (
+                    <li key={`${a.createdAt}-${i}`} className="admin-attempts__row">
+                      <span className={a.success ? "admin-attempts__ok" : "admin-attempts__bad"}>
+                        {a.success ? "OK" : "FAIL"}
+                      </span>
+                      <span>{a.ip}</span>
+                      <span>{new Date(a.createdAt).toLocaleString("en-IN")}</span>
+                    </li>
+                  ))
+                )}
+              </ul>
+            </details>
           </>
         ) : null}
       </div>
