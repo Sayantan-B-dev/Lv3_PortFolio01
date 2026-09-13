@@ -230,6 +230,29 @@
   text-transform: none;
   letter-spacing: normal;
 }
+.admin-password {
+  position: relative;
+  display: block;
+}
+.admin-password input { padding-right: 2.75rem; }
+.admin-eye {
+  position: absolute;
+  right: 0.4rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  padding: 0.4rem;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  transition: color 0.25s, background 0.25s;
+}
+.admin-eye:hover {
+  color: var(--primary);
+  background: color-mix(in oklch, var(--primary) 12%, transparent);
+}
 .admin-cover {
   display: block;
   max-width: 22rem;

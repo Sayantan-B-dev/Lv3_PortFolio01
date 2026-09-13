@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -234,6 +235,7 @@ export default function AdminStudio() {
 function LoginForm({ onDone, onError }: { onDone: () => void; onError: (msg: string) => void }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [busy, setBusy] = useState(false);
 
   return (
@@ -269,13 +271,28 @@ function LoginForm({ onDone, onError }: { onDone: () => void; onError: (msg: str
       </label>
       <label className="admin-field">
         <span>Password</span>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          autoComplete="current-password"
-          required
-        />
+        <span className="admin-password">
+          <input
+            type={showPassword ? "text" : "password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
+            required
+          />
+          <button
+            type="button"
+            className="admin-eye"
+            onClick={() => setShowPassword((v) => !v)}
+            aria-label={showPassword ? "Hide password" : "Show password"}
+            aria-pressed={showPassword}
+          >
+            {showPassword ? (
+              <EyeOff className="icon-4" aria-hidden="true" />
+            ) : (
+              <Eye className="icon-4" aria-hidden="true" />
+            )}
+          </button>
+        </span>
       </label>
       <button type="submit" className="admin-btn admin-btn--primary" disabled={busy}>
         {busy ? "Checking…" : "Log in"}
