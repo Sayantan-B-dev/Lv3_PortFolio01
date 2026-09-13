@@ -49,6 +49,10 @@ export async function signSession(): Promise<string> {
 
 export async function isAdminRequest(req: NextRequest): Promise<boolean> {
   const token = req.cookies.get(SESSION_COOKIE)?.value;
+  return verifySessionToken(token);
+}
+
+export async function verifySessionToken(token: string | undefined): Promise<boolean> {
   if (!token) return false;
   try {
     const { payload } = await jwtVerify(token, jwtSecret(), { subject: SESSION_SUBJECT });
