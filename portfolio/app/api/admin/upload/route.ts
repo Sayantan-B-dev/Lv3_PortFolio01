@@ -17,8 +17,9 @@ export async function POST(req: NextRequest) {
   if (!(file instanceof File)) {
     return NextResponse.json({ ok: false, error: "No file attached." }, { status: 400 });
   }
-  if (!file.type.startsWith("image/")) {
-    return NextResponse.json({ ok: false, error: "Only image files are allowed." }, { status: 400 });
+  const isWebp = file.type === "image/webp" || /\.webp$/i.test(file.name);
+  if (!isWebp) {
+    return NextResponse.json({ ok: false, error: "Only .webp images are allowed." }, { status: 400 });
   }
   if (file.size <= 0 || file.size > MAX_BYTES) {
     return NextResponse.json({ ok: false, error: "Image must be under 5 MB." }, { status: 400 });

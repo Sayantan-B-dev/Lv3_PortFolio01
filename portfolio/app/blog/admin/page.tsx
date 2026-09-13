@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Eye, EyeOff, ImagePlus } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -331,6 +331,8 @@ function Editor({
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [preview, setPreview] = useState(false);
+  const [dragOver, setDragOver] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   const upload = async (file: File) => {
     setUploading(true);
@@ -348,6 +350,16 @@ function Editor({
     } finally {
       setUploading(false);
     }
+  };
+
+  const acceptFile = (file: File | undefined) => {
+    if (!file) return;
+    const isWebp = file.type === "image/webp" || /\.webp$/i.test(file.name);
+    if (!isWebp) {
+      onError("Only .webp images are allowed.");
+      return;
+    }
+    upload(file);
   };
 
   const save = async () => {
@@ -430,15 +442,46 @@ function Editor({
             />
           </label>
           <div className="admin-field">
-            <span>Cover image (uploads to the blog folder)</span>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) upload(file);
+            <span>Cover image (.webp, uploads to the blog folder)</span>
+            <div
+              className={dragOver ? "admin-dropzone admin-dropzone--over" : "admin-dropzone"}
+              onClick={() => fileRef.current?.click()}
+              onDragOver={(e) => {
+                e.preventDefault();
+                setDragOver(true);
               }}
-            />
+              onDragLeave={() => setDragOver(false)}
+              onDrop={(e) => {
+                e.preventDefault();
+                setDragOver(false);
+                acceptFile(e.dataTransfer.files?.[0]);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  fileRef.current?.click();
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label="Upload a .webp cover image"
+            >
+              <ImagePlus className="icon-5" aria-hidden="true" />
+              <p>
+                <strong>Drag &amp; drop a .webp here</strong>
+                <span>or click to browse (max 5 MB)</span>
+              </p>
+              <input
+                ref={fileRef}
+                type="file"
+                accept=".webp,image/webp"
+                hidden
+                onChange={(e) => {
+                  acceptFile(e.target.files?.[0]);
+                  e.target.value = "";
+                }}
+              />
+            </div>
             {uploading ? <p className="admin-hint">Uploading…</p> : null}
             {imageUrl ? (
               <span className="admin-cover">
