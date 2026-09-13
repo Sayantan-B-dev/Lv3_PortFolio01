@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { GithubIcon, LinkedinIcon } from "@/components/icons";
@@ -131,12 +132,12 @@ export function SiteHeader() {
           >
             <LinkedinIcon className="icon-4" />
           </a>
-          <a
+          <Link
             href="/blog"
             className="site-header__blog"
           >
             Blog
-          </a>
+          </Link>
           <a
             href="#contact"
             className="site-header__cta"
@@ -173,14 +174,14 @@ export function SiteHeader() {
               {link.label}
             </a>
           ))}
-          <a
+          <Link
             href="/blog"
             className="site-header__mobile-link"
             onClick={() => setOpen(false)}
           >
             <span className="site-header__nav-index">06</span>
             Blog
-          </a>
+          </Link>
           <a
             href="#contact"
             className="site-header__mobile-cta"

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ArrowUp, Lock, Mail } from "lucide-react";
+import Link from "next/link";
 
 import { Marquee } from "@/components/marquee";
 import { GithubIcon, LinkedinIcon } from "@/components/icons";
@@ -108,9 +109,9 @@ export function Footer() {
           <p className="site-footer__copy">
             Kolkata, IN — <span className="site-footer__time">{time} IST</span>
           </p>
-          <a href="/blog/admin" className="site-footer__link" aria-label="Admin login">
+          <Link href="/blog/admin" className="site-footer__link" aria-label="Admin login">
             <Lock className="icon-3-5" aria-hidden="true" />
-          </a>
+          </Link>
           <a href="#top" className="site-footer__link">
             Back to top
             <ArrowUp className="icon-3-5" aria-hidden="true" />
