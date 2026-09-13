@@ -306,6 +306,10 @@
   aspect-ratio: 16 / 9;
   object-fit: cover;
 }
+.admin-cover--preview {
+  max-width: 100%;
+  margin-top: 1.25rem;
+}
 .admin-preview {
   border-radius: 0.7rem;
   border: 1px dashed color-mix(in oklch, var(--border) 70%, transparent);

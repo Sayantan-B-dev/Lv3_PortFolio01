@@ -422,6 +422,12 @@ function Editor({
       {preview ? (
         <div className="admin-preview" data-lenis-prevent>
           <h2 className="blog-post__title">{title || "Untitled"}</h2>
+          {imageUrl ? (
+            <span className="admin-cover admin-cover--preview">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={imageUrl} alt="Cover preview" />
+            </span>
+          ) : null}
           <div className="blog-md">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown || "_Nothing yet._"}</ReactMarkdown>
           </div>
