@@ -59,6 +59,8 @@ export default function AdminStudio() {
   const [attempts, setAttempts] = useState<{ ip: string; success: boolean; createdAt: string }[]>([]);
   const [editingId, setEditingId] = useState<string | "new" | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<AdminPost | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   const refresh = useCallback(async () => {
     const data = await api<{ items: AdminPost[] }>("/api/admin/posts");
@@ -200,15 +202,7 @@ export default function AdminStudio() {
                       <button
                         type="button"
                         className="admin-btn admin-btn--danger"
-                        onClick={async () => {
-                          if (!window.confirm(`Delete "${post.title}" forever?`)) return;
-                          try {
-                            await api(`/api/admin/posts/${post._id}`, { method: "DELETE" });
-                            refresh().catch(() => {});
-                          } catch (err) {
-                            setNotice(err instanceof Error ? err.message : "Delete failed.");
-                          }
-                        }}
+                        onClick={() => setPendingDelete(post)}
                       >
                         Delete
                       </button>
@@ -218,6 +212,63 @@ export default function AdminStudio() {
                 {posts.length === 0 ? <p className="blog-empty">No posts yet. Write the first one.</p> : null}
               </ul>
             )}
+
+            {pendingDelete ? (
+              <div
+                className="admin-modal"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Confirm delete"
+                onClick={() => {
+                  if (!deleting) setPendingDelete(null);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Escape" && !deleting) setPendingDelete(null);
+                }}
+              >
+                <div
+                  className="admin-modal__card motion-safe-in"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <p className="admin-modal__title">Delete this post?</p>
+                  <p className="admin-modal__body">
+                    “{pendingDelete.title}” and its cover image will be gone forever. This cannot be
+                    undone.
+                  </p>
+                  <div className="admin-modal__actions">
+                    <button
+                      type="button"
+                      className="admin-btn"
+                      disabled={deleting}
+                      onClick={() => setPendingDelete(null)}
+                    >
+                      Keep it
+                    </button>
+                    <button
+                      type="button"
+                      className="admin-btn admin-btn--danger admin-btn--solid-danger"
+                      disabled={deleting}
+                      autoFocus
+                      onClick={async () => {
+                        setDeleting(true);
+                        try {
+                          await api(`/api/admin/posts/${pendingDelete._id}`, { method: "DELETE" });
+                          setPendingDelete(null);
+                          refresh().catch(() => {});
+                        } catch (err) {
+                          setNotice(err instanceof Error ? err.message : "Delete failed.");
+                          setPendingDelete(null);
+                        } finally {
+                          setDeleting(false);
+                        }
+                      }}
+                    >
+                      {deleting ? "Deleting…" : "Yes, delete"}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : null}
 
             <details className="admin-attempts">
               <summary className="admin-attempts__summary">
