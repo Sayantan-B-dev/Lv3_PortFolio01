@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowUp, Mail } from "lucide-react";
+import { ArrowUp, Lock, Mail } from "lucide-react";
 
 import { Marquee } from "@/components/marquee";
 import { GithubIcon, LinkedinIcon } from "@/components/icons";
@@ -106,8 +106,11 @@ export function Footer() {
             © {new Date().getFullYear()} {profile.name}
           </p>
           <p className="site-footer__copy">
-            Kolkata, IN · <span className="site-footer__time">{time} IST</span>
+            Kolkata, IN — <span className="site-footer__time">{time} IST</span>
           </p>
+          <a href="/blog/admin" className="site-footer__link" aria-label="Admin login">
+            <Lock className="icon-3-5" aria-hidden="true" />
+          </a>
           <a href="#top" className="site-footer__link">
             Back to top
             <ArrowUp className="icon-3-5" aria-hidden="true" />

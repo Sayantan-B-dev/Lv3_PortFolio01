@@ -1,6 +1,8 @@
 /* Domain types + strict input validation for the blog.
    Pure module: no I/O, no framework imports (single responsibility). */
 
+import type { ObjectId } from "mongodb";
+
 export type Visibility = "public" | "private";
 
 export interface BlogLink {
@@ -9,7 +11,7 @@ export interface BlogLink {
 }
 
 export interface BlogPostDoc {
-  _id?: unknown;
+  _id?: ObjectId;
   slug: string;
   title: string;
   description: string;
@@ -35,7 +37,7 @@ export interface BlogPostInput {
 }
 
 export interface AdminDoc {
-  _id?: unknown;
+  _id?: ObjectId;
   usernameHash: string;
   passwordHash: string;
   createdAt: string;
@@ -43,7 +45,7 @@ export interface AdminDoc {
 }
 
 export interface AttemptDoc {
-  _id?: unknown;
+  _id?: ObjectId;
   ip: string;
   success: boolean;
   createdAt: string;
