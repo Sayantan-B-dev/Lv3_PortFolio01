@@ -114,14 +114,21 @@ export default function AdminStudio() {
 
         {status === "admin" ? (
           <>
-            <div className="admin-bar">
-              <p className="admin-count">
-                {posts.length} post{posts.length === 1 ? "" : "s"}
-              </p>
-              <div className="admin-bar__actions">
+            <nav className="admin-tabs" aria-label="Studio sections">
+              <span className="admin-tabs__group">
                 <button
                   type="button"
-                  className="admin-btn admin-btn--primary"
+                  className={editingId ? "admin-tab" : "admin-tab admin-tab--active"}
+                  onClick={() => {
+                    setEditingId(null);
+                    setNotice(null);
+                  }}
+                >
+                  Posts ({posts.length})
+                </button>
+                <button
+                  type="button"
+                  className={editingId ? "admin-tab admin-tab--active" : "admin-tab"}
                   onClick={() => {
                     setEditingId("new");
                     setNotice(null);
@@ -129,11 +136,16 @@ export default function AdminStudio() {
                 >
                   + New post
                 </button>
-                <button type="button" className="admin-btn" onClick={logout}>
+              </span>
+              <span className="admin-tabs__group">
+                <a href="/blog" className="admin-tab">
+                  View blog <span aria-hidden="true">↗</span>
+                </a>
+                <button type="button" className="admin-tab" onClick={logout}>
                   Log out
                 </button>
-              </div>
-            </div>
+              </span>
+            </nav>
 
             {editingId ? (
               <Editor
