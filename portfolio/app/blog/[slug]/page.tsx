@@ -80,7 +80,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   };
 
   return (
-    <main className="page-main">
+    <main className="page-main page-main--padded">
       <div className="container-x">
         <div className="blog-post">
           <Link href="/blog" className="blog-back">

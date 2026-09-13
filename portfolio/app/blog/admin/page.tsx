@@ -88,7 +88,7 @@ export default function AdminStudio() {
   };
 
   return (
-    <main className="page-main">
+    <main className="page-main page-main--padded">
       <div className="container-x">
         <div className="eyebrow-row">
           <span className="eyebrow-row__num">07</span>

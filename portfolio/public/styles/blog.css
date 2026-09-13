@@ -3,6 +3,14 @@
    Same editorial language as the rest of the site.
    ============================================================ */
 
+/* Pages always start below the fixed nav: nav stays on top, main below. */
+.page-main--padded {
+  padding-top: 5rem;
+}
+@media (min-width: 1024px) {
+  .page-main--padded { padding-top: 5.5rem; }
+}
+
 .blog-hero-title {
   margin-top: 3rem;
   font-size: clamp(3rem, 10vw, 8rem);
