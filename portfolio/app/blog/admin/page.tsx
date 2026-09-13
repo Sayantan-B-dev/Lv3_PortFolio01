@@ -272,6 +272,11 @@ function LoginForm({ onDone, onError }: { onDone: () => void; onError: (msg: str
         }
       }}
     >
+      <p className="admin-login-title">
+        <LockKeyhole className="icon-5" aria-hidden="true" />
+        Studio login
+      </p>
+      <p className="admin-login-sub">Restricted area. One admin only.</p>
       <label className="admin-field">
         <span>Username</span>
         <input

@@ -162,6 +162,25 @@
   margin-right: auto;
   margin-top: 2.5rem;
   text-align: center;
+  box-shadow: 0 0 0 1px color-mix(in oklch, var(--border) 60%, transparent), 0 30px 90px -25px oklch(0.69 0.16 289 / 0.55);
+}
+.admin-login-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-transform: none;
+  color: var(--foreground);
+}
+.admin-login-title svg { color: var(--primary); }
+.admin-login-sub {
+  font-size: 0.82rem;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--muted-foreground);
 }
 .admin-form--narrow .admin-field { text-align: left; }
 .admin-form--narrow .admin-btn { align-self: center; min-width: 12rem; }
