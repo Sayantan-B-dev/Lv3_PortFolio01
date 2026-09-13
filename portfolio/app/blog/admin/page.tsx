@@ -209,7 +209,7 @@ export default function AdminStudio() {
               <summary className="admin-attempts__summary">
                 Recent login attempts ({attempts.filter((a) => !a.success).length} failed)
               </summary>
-              <ul className="admin-attempts__list">
+              <ul className="admin-attempts__list" data-lenis-prevent>
                 {attempts.length === 0 ? (
                   <li className="admin-attempts__row">No attempts logged yet.</li>
                 ) : (
@@ -420,7 +420,7 @@ function Editor({
       </div>
 
       {preview ? (
-        <div className="admin-preview">
+        <div className="admin-preview" data-lenis-prevent>
           <h2 className="blog-post__title">{title || "Untitled"}</h2>
           <div className="blog-md">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown || "_Nothing yet._"}</ReactMarkdown>
@@ -497,6 +497,7 @@ function Editor({
               onChange={(e) => setMarkdown(e.target.value)}
               rows={14}
               spellCheck={false}
+              data-lenis-prevent
             />
           </label>
           <div className="admin-field">
