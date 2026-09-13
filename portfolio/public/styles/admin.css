@@ -213,6 +213,23 @@
   transition: border-color 0.25s, box-shadow 0.25s;
 }
 .admin-field textarea { line-height: 1.6; resize: vertical; }
+/* themed scrollbar for the markdown field */
+.admin-field textarea {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklch, var(--primary) 65%, transparent) transparent;
+}
+.admin-field textarea::-webkit-scrollbar { width: 10px; }
+.admin-field textarea::-webkit-scrollbar-track { background: transparent; }
+.admin-field textarea::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background: linear-gradient(var(--primary), oklch(0.707 0.165 307.194));
+  background-clip: padding-box;
+}
+.admin-field textarea::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+  background-clip: padding-box;
+}
 .admin-field input:focus,
 .admin-field textarea:focus,
 .admin-field select:focus {
