@@ -6,6 +6,8 @@ import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
+import { DateTimePicker } from "@/components/admin-datetime";
+
 interface PostLink {
   label: string;
   url: string;
@@ -342,6 +344,7 @@ function Editor({
   const [links, setLinks] = useState<PostLink[]>(initial?.links ?? []);
   const [tags, setTags] = useState((initial?.tags ?? []).join(", "));
   const [visibility, setVisibility] = useState<"public" | "private">(initial?.visibility ?? "public");
+  const [publishNow, setPublishNow] = useState(true);
   const [publishAt, setPublishAt] = useState(initial?.publishAt ? toLocalInput(initial.publishAt) : "");
   const [imageUrl, setImageUrl] = useState(initial?.imageUrl ?? "");
   const [imagePublicId, setImagePublicId] = useState(initial?.imagePublicId ?? "");
@@ -393,6 +396,10 @@ function Editor({
   };
 
   const save = async () => {
+    if (!publishNow && !publishAt) {
+      onError("Pick a publish date, or tick Publish now.");
+      return;
+    }
     setSaving(true);
     try {
       const payload = {
@@ -402,7 +409,7 @@ function Editor({
         links: links.filter((l) => l.label.trim() && l.url.trim()),
         tags: tags.split(",").map((t) => t.trim()).filter(Boolean),
         visibility,
-        publishAt: publishAt ? new Date(publishAt).toISOString() : undefined,
+        publishAt: publishNow ? new Date().toISOString() : new Date(publishAt).toISOString(),
         imageUrl,
         imagePublicId,
       };
@@ -594,8 +601,19 @@ function Editor({
               </select>
             </label>
             <label className="admin-field">
-              <span>Publish at (empty = now)</span>
-              <input type="datetime-local" value={publishAt} onChange={(e) => setPublishAt(e.target.value)} />
+              <span>Publish at</span>
+              <label className="admin-check">
+                <input
+                  type="checkbox"
+                  checked={publishNow}
+                  onChange={(e) => setPublishNow(e.target.checked)}
+                />
+                <span>Publish now</span>
+              </label>
+              <DateTimePicker value={publishAt} onChange={setPublishAt} disabled={publishNow} />
+              {!publishNow && !publishAt ? (
+                <p className="admin-hint">Pick a date above, or tick Publish now.</p>
+              ) : null}
             </label>
           </div>
         </>
