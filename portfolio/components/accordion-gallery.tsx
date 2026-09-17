@@ -11,6 +11,7 @@ import {
 } from "react";
 import { gsap } from "gsap";
 import { LightTunnel } from "@/components/light-tunnel";
+import { getWebGLCaps } from "@/lib/webgl";
 
 export interface AccordionGalleryItem {
   image: string;
@@ -77,8 +78,10 @@ export function AccordionGallery({
   const count = items.length;
   const [active, setActive] = useState(Math.min(Math.max(defaultIndex, 0), count - 1));
   const [coarse, setCoarse] = useState(false);
+  const [webglOk, setWebglOk] = useState(true);
 
   useEffect(() => {
+    setWebglOk(getWebGLCaps().supported);
     const mq = window.matchMedia?.("(pointer: coarse)");
     if (!mq) return;
     const sync = () => setCoarse(mq.matches);
@@ -266,7 +269,7 @@ export function AccordionGallery({
               <span className="ag-panel__tunnel" aria-hidden="true">
                 {/* Active panel only: 8 simultaneous WebGL contexts exhaust
                     the browser limit and kill the hero/globe contexts. */}
-                {isActive && (
+                {isActive && webglOk && (
                 <LightTunnel
                   cableColor="#A855F7"
                   pulseColor="#c4b5fd"

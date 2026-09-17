@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
+import { getWebGLCaps } from "@/lib/webgl";
 
 interface GridDistortionProps {
   grid?: number;
@@ -67,39 +68,47 @@ export function GridDistortion({
     if (!containerRef.current) return;
 
     const container = containerRef.current;
+    const caps = getWebGLCaps();
 
-    // Bail to <img> fallback when WebGL is unavailable.
-    // Note: no loseContext() on the probe — the detached canvas is GC'd,
-    // and forcing it logs "WEBGL_lose_context extension not supported" noise.
-    try {
-      const probe = document.createElement("canvas");
-      const gl = probe.getContext("webgl2") || probe.getContext("webgl");
-      if (!gl) {
-        setFailed(true);
-        return;
-      }
-    } catch {
+    // No WebGL at all -> static image. Never a black box.
+    if (!caps.supported) {
       setFailed(true);
       return;
     }
 
+    // Low-power GPUs get a coarser grid + cheaper renderer before they choke.
+    const effGrid = caps.tier === "minimal" ? Math.min(grid, 12) : caps.lowPower ? Math.min(grid, 18) : grid;
+
     let renderer: THREE.WebGLRenderer;
     try {
       renderer = new THREE.WebGLRenderer({
-        antialias: true,
+        antialias: !caps.lowPower,
         alpha: true,
-        powerPreference: "high-performance",
+        powerPreference: caps.lowPower ? "low-power" : "high-performance",
       });
     } catch {
       setFailed(true);
       return;
     }
     const scene = new THREE.Scene();
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, caps.maxDpr));
     renderer.setClearColor(0x000000, 0);
 
     container.innerHTML = "";
     container.appendChild(renderer.domElement);
+
+    // Future-proofing: ANY runtime context loss (driver reset, memory pressure,
+    // too many contexts) swaps to the static image instead of a black canvas.
+    const handleContextLost = (e: Event) => {
+      e.preventDefault();
+      try {
+        container.innerHTML = "";
+      } catch {
+        /* ignore */
+      }
+      setFailed(true);
+    };
+    renderer.domElement.addEventListener("webglcontextlost", handleContextLost);
 
     const camera = new THREE.OrthographicCamera(0, 0, 0, 0, -1000, 1000);
     camera.position.z = 2;
@@ -128,10 +137,17 @@ export function GridDistortion({
         handleResize();
       },
       undefined,
-      () => setFailed(true)
+      () => {
+        try {
+          container.innerHTML = "";
+        } catch {
+          /* ignore */
+        }
+        setFailed(true);
+      }
     );
 
-    const size = grid;
+    const size = effGrid;
     const data = new Float32Array(4 * size * size);
     for (let i = 0; i < size * size; i++) {
       data[i * 4] = Math.random() * 255 - 125;
@@ -322,6 +338,7 @@ export function GridDistortion({
       container.removeEventListener("mouseleave", handleMouseLeave);
       container.removeEventListener("touchmove", handleTouchMove);
       container.removeEventListener("touchend", handleMouseLeave);
+      renderer.domElement.removeEventListener("webglcontextlost", handleContextLost);
       if (trackWindow) {
         window.removeEventListener("pointermove", handleMouseMove);
       }

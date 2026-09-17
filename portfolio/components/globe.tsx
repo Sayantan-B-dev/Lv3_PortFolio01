@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
+import { getWebGLCaps } from "@/lib/webgl";
 
 const globeParticleVertex = `
 attribute float a_size;
@@ -150,6 +151,7 @@ export function GlobeCanvas({
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
+  const [unsupported, setUnsupported] = useState(false);
   const rotationRef = useRef({ x: 0, z: 0, yaw: 0 });
   const isDragging = useRef(false);
   const lastPointer = useRef({ x: 0, y: 0 });
@@ -168,14 +170,16 @@ export function GlobeCanvas({
     if (!canvas) return;
     const canvasEl: HTMLCanvasElement = canvas;
 
-    const coarse = window.matchMedia?.("(pointer: coarse)").matches ?? false;
-    const small = window.matchMedia?.("(max-width: 640px)").matches ?? false;
-    const lowPower = coarse || small;
-    const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+    const caps = getWebGLCaps();
+    if (!caps.supported) {
+      setUnsupported(true);
+      return;
+    }
+    const reduced = caps.reducedMotion;
 
     const defaults = {
-      sphereCount: lowPower ? 1200 : 2600,
-      ringCount: lowPower ? 2200 : 5500,
+      sphereCount: caps.tier === "minimal" ? 800 : caps.tier === "low" ? 1200 : 2600,
+      ringCount: caps.tier === "minimal" ? 1200 : caps.tier === "low" ? 2200 : 5500,
       radius: 1,
       ringRadius: 2,
       ringThickness: 0.40,
@@ -183,16 +187,29 @@ export function GlobeCanvas({
       mouseStrength: 0.3,
       coreColor: "#f8fafc",
       cameraDistance: 8.0,
-      maxDpr: lowPower ? 1.5 : 2.0,
+      maxDpr: caps.maxDpr,
     };
 
     let renderer: THREE.WebGLRenderer;
     try {
-      renderer = new THREE.WebGLRenderer({ canvas: canvasEl, antialias: !lowPower, alpha: true });
+      renderer = new THREE.WebGLRenderer({
+        canvas: canvasEl,
+        antialias: caps.tier === "high",
+        alpha: true,
+        powerPreference: caps.lowPower ? "low-power" : "high-performance",
+      });
     } catch {
-      canvasEl.style.display = "none";
+      setUnsupported(true);
       return;
     }
+
+    // Any runtime context loss -> themed static orb, never a black box.
+    const handleContextLost = (e: Event) => {
+      e.preventDefault();
+      contextDead = true;
+      setUnsupported(true);
+    };
+    canvasEl.addEventListener("webglcontextlost", handleContextLost);
     renderer.setClearColor(0x000000, 0);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, defaults.maxDpr));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -230,6 +247,7 @@ export function GlobeCanvas({
     const pointer = new THREE.Vector2(0, 0);
     let rafId = 0;
     let inView = true;
+    let contextDead = false;
     const startLoop = () => {
       if (rafId === 0 && inView && !document.hidden) rafId = requestAnimationFrame(render);
     };
@@ -325,7 +343,7 @@ export function GlobeCanvas({
     }
 
     function render(time = 0) {
-      if (!inView || document.hidden) {
+      if (contextDead || !inView || document.hidden) {
         rafId = 0;
         return;
       }
@@ -410,6 +428,7 @@ export function GlobeCanvas({
       stopLoop();
       ro.disconnect();
       io.disconnect();
+      canvasEl.removeEventListener("webglcontextlost", handleContextLost);
       document.removeEventListener("visibilitychange", onVis);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("pointermove", handleWindowPointerMove);
@@ -426,12 +445,18 @@ export function GlobeCanvas({
 
   return (
     <div ref={wrapRef} style={{ width: "100%", height: "100%", minHeight: 0 }}>
-      <canvas
-        ref={canvasRef}
-        data-globe-particles
-        aria-hidden="true"
-        className={className}
-      />
+      {unsupported ? (
+        <div className={className} aria-hidden="true" style={{ position: "relative" }}>
+          <div className="globe-fallback" />
+        </div>
+      ) : (
+        <canvas
+          ref={canvasRef}
+          data-globe-particles
+          aria-hidden="true"
+          className={className}
+        />
+      )}
     </div>
   );
 }

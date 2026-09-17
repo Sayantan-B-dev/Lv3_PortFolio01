@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { Renderer, Program, Mesh, Triangle } from "ogl";
+import { getWebGLCaps } from "@/lib/webgl";
 
 export type FlowDirection = "inward" | "outward";
 
@@ -220,13 +221,9 @@ export function LightTunnel({
     const container = containerRef.current;
     if (!container) return;
 
-    // No WebGL2 -> leave a transparent fallback instead of throwing.
-    try {
-      const probe = document.createElement("canvas");
-      if (!probe.getContext("webgl2")) return;
-    } catch {
-      return;
-    }
+    const caps = getWebGLCaps();
+    // No WebGL2 -> leave the transparent fallback instead of throwing.
+    if (!caps.supported) return;
 
     let renderer: InstanceType<typeof Renderer>;
     try {
@@ -234,7 +231,7 @@ export function LightTunnel({
         canvas: document.createElement("canvas"),
         alpha: true,
         antialias: false,
-        dpr: Math.min(window.devicePixelRatio || 1, 2),
+        dpr: Math.min(window.devicePixelRatio || 1, caps.maxDpr),
         webgl: 2,
       } as ConstructorParameters<typeof Renderer>[0]);
     } catch {
@@ -250,10 +247,12 @@ export function LightTunnel({
     container.appendChild(canvas);
 
     const geometry = new Triangle(gl);
-    const program = new Program(gl, {
-      vertex,
-      fragment,
-      uniforms: {
+    let program: InstanceType<typeof Program>;
+    try {
+      program = new Program(gl, {
+        vertex,
+        fragment,
+        uniforms: {
         iTime: { value: 0 },
         iResolution: { value: new Float32Array([1, 1]) },
         uSpeed: { value: 0.1 },
@@ -284,7 +283,17 @@ export function LightTunnel({
         uGrainIntensity: { value: 0.05 },
         uLightMode: { value: 0.0 },
       },
-    });
+      });
+    } catch {
+      // Shader compile failure on old GPUs -> transparent fallback.
+      try {
+        container.removeChild(canvas);
+      } catch {
+        /* ignore */
+      }
+      gl.getExtension("WEBGL_lose_context")?.loseContext();
+      return;
+    }
 
     const mesh = new Mesh(gl, { geometry, program });
     ctxMap.set(container, { renderer, program, mesh });
@@ -367,6 +376,14 @@ export function LightTunnel({
     };
     document.addEventListener("visibilitychange", onVisibility);
 
+    // Runtime context loss (memory pressure, too many contexts): stop the loop
+    // and leave the transparent fallback instead of throwing every frame.
+    const handleContextLost = (e: Event) => {
+      e.preventDefault();
+      tryStop();
+    };
+    canvas.addEventListener("webglcontextlost", handleContextLost);
+
     tryStart();
 
     return () => {
@@ -376,6 +393,7 @@ export function LightTunnel({
       document.removeEventListener("visibilitychange", onVisibility);
       canvas.removeEventListener("mousemove", handleMouseMove);
       canvas.removeEventListener("mouseleave", handleMouseLeave);
+      canvas.removeEventListener("webglcontextlost", handleContextLost);
       ctxMap.delete(container);
       try {
         container.removeChild(canvas);
