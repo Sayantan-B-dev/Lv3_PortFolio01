@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
 interface GridDistortionProps {
@@ -61,19 +61,39 @@ export function GridDistortion({
   trackWindow = false,
 }: GridDistortionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     if (!containerRef.current) return;
 
     const container = containerRef.current;
 
-    const scene = new THREE.Scene();
+    // Bail to <img> fallback when WebGL is unavailable.
+    try {
+      const probe = document.createElement("canvas");
+      const gl = probe.getContext("webgl2") || probe.getContext("webgl");
+      if (!gl) {
+        setFailed(true);
+        return;
+      }
+      (gl.getExtension("WEBGL_lose_context") as { loseContext?: () => void } | null)?.loseContext?.();
+    } catch {
+      setFailed(true);
+      return;
+    }
 
-    const renderer = new THREE.WebGLRenderer({
-      antialias: true,
-      alpha: true,
-      powerPreference: "high-performance",
-    });
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        alpha: true,
+        powerPreference: "high-performance",
+      });
+    } catch {
+      setFailed(true);
+      return;
+    }
+    const scene = new THREE.Scene();
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setClearColor(0x000000, 0);
 
@@ -93,17 +113,22 @@ export function GridDistortion({
     };
 
     const textureLoader = new THREE.TextureLoader();
-    textureLoader.load(imageSrc, (texture) => {
-      texture.minFilter = THREE.LinearFilter;
-      texture.magFilter = THREE.LinearFilter;
-      texture.wrapS = THREE.ClampToEdgeWrapping;
-      texture.wrapT = THREE.ClampToEdgeWrapping;
-      uniforms.uTexture.value = texture;
-      if (texture.image?.width && texture.image?.height) {
-        uniforms.uImageAspect.value = texture.image.width / texture.image.height;
-      }
-      handleResize();
-    });
+    textureLoader.load(
+      imageSrc,
+      (texture) => {
+        texture.minFilter = THREE.LinearFilter;
+        texture.magFilter = THREE.LinearFilter;
+        texture.wrapS = THREE.ClampToEdgeWrapping;
+        texture.wrapT = THREE.ClampToEdgeWrapping;
+        uniforms.uTexture.value = texture;
+        if (texture.image?.width && texture.image?.height) {
+          uniforms.uImageAspect.value = texture.image.width / texture.image.height;
+        }
+        handleResize();
+      },
+      undefined,
+      () => setFailed(true)
+    );
 
     const size = grid;
     const data = new Float32Array(4 * size * size);
@@ -214,8 +239,35 @@ export function GridDistortion({
     }
 
     handleResize();
+    // Late content (fonts/images) can change layout: re-measure once settled.
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(() => handleResize()).catch(() => {});
+    }
 
     let animationId = 0;
+    let visible = true;
+    let pageVisible = !document.hidden;
+    const onVisibility = () => {
+      pageVisible = !document.hidden;
+      if (pageVisible && visible && !animationId) animationId = requestAnimationFrame(animate);
+      else if (!pageVisible && animationId) {
+        cancelAnimationFrame(animationId);
+        animationId = 0;
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        if (visible && pageVisible && !animationId) animationId = requestAnimationFrame(animate);
+        else if (!visible && animationId) {
+          cancelAnimationFrame(animationId);
+          animationId = 0;
+        }
+      },
+      { threshold: 0 }
+    );
+    io.observe(container);
     const animate = () => {
       animationId = requestAnimationFrame(animate);
 
@@ -255,6 +307,9 @@ export function GridDistortion({
 
     return () => {
       cancelAnimationFrame(animationId);
+      animationId = 0;
+      io.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
 
       if (resizeObserver) {
         resizeObserver.disconnect();
@@ -281,6 +336,25 @@ export function GridDistortion({
       }
     };
   }, [grid, mouse, strength, relaxation, imageSrc, trackWindow]);
+
+  if (failed) {
+    return (
+      <div
+        ref={containerRef}
+        role="img"
+        aria-label="Sayantan Bharati"
+        className={className ? `distortion-container ${className}` : "distortion-container"}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={imageSrc}
+          alt="Sayantan Bharati"
+          draggable={false}
+          style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div

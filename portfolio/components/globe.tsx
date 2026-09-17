@@ -149,6 +149,7 @@ export function GlobeCanvas({
   tune?: GlobeTune;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
   const rotationRef = useRef({ x: 0, z: 0, yaw: 0 });
   const isDragging = useRef(false);
   const lastPointer = useRef({ x: 0, y: 0 });
@@ -163,12 +164,18 @@ export function GlobeCanvas({
 
   useEffect(() => {
     const canvas = canvasRef.current;
+    const wrap = wrapRef.current;
     if (!canvas) return;
     const canvasEl: HTMLCanvasElement = canvas;
 
+    const coarse = window.matchMedia?.("(pointer: coarse)").matches ?? false;
+    const small = window.matchMedia?.("(max-width: 640px)").matches ?? false;
+    const lowPower = coarse || small;
+    const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+
     const defaults = {
-      sphereCount: 2600,
-      ringCount: 5500,
+      sphereCount: lowPower ? 1200 : 2600,
+      ringCount: lowPower ? 2200 : 5500,
       radius: 1,
       ringRadius: 2,
       ringThickness: 0.40,
@@ -176,10 +183,16 @@ export function GlobeCanvas({
       mouseStrength: 0.3,
       coreColor: "#f8fafc",
       cameraDistance: 8.0,
-      maxDpr: 2.0,
+      maxDpr: lowPower ? 1.5 : 2.0,
     };
 
-    const renderer = new THREE.WebGLRenderer({ canvas: canvasEl, antialias: true, alpha: true });
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ canvas: canvasEl, antialias: !lowPower, alpha: true });
+    } catch {
+      canvasEl.style.display = "none";
+      return;
+    }
     renderer.setClearColor(0x000000, 0);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, defaults.maxDpr));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -216,6 +229,16 @@ export function GlobeCanvas({
 
     const pointer = new THREE.Vector2(0, 0);
     let rafId = 0;
+    let inView = true;
+    const startLoop = () => {
+      if (rafId === 0 && inView && !document.hidden) rafId = requestAnimationFrame(render);
+    };
+    const stopLoop = () => {
+      if (rafId !== 0) {
+        cancelAnimationFrame(rafId);
+        rafId = 0;
+      }
+    };
 
     // Magnetic pull: canvas drifts toward the cursor when it's close
     const magnet = { x: 0, y: 0 };
@@ -302,12 +325,18 @@ export function GlobeCanvas({
     }
 
     function render(time = 0) {
+      if (!inView || document.hidden) {
+        rafId = 0;
+        return;
+      }
       const t = time * 0.001;
       material.uniforms.u_time.value = t;
 
       // frame delta for framerate-independent spin
       const dt = lastTime < 0 ? 0.016 : Math.min((time - lastTime) / 1000, 0.05);
       lastTime = time;
+
+      const spinScale = reduced ? 0.25 : 1;
 
       if (!isDragging.current) {
         // release momentum with friction
@@ -320,7 +349,7 @@ export function GlobeCanvas({
         spinVel.x *= 0.95;
         // auto spin eases back once the fling dies down
         const fling = Math.min(1, Math.hypot(spinVel.yaw, spinVel.x) * 30);
-        autoAngle += dt * tuneRef.current.rotationSpeed * (1 - Math.min(1, fling));
+        autoAngle += dt * tuneRef.current.rotationSpeed * spinScale * (1 - Math.min(1, fling));
       }
 
       const breath = Math.sin(t * 0.55) * 0.045;
@@ -346,13 +375,29 @@ export function GlobeCanvas({
     }
 
     function handleResize() {
-      cancelAnimationFrame(rafId);
       resize();
-      render();
+      startLoop();
     }
 
     resize();
     render();
+    const ro = new ResizeObserver(() => resize());
+    if (wrap?.parentElement) ro.observe(wrap.parentElement);
+    else ro.observe(canvasEl);
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        inView = entry.isIntersecting;
+        if (inView) startLoop();
+        else stopLoop();
+      },
+      { threshold: 0 }
+    );
+    io.observe(canvasEl);
+    const onVis = () => {
+      if (document.hidden) stopLoop();
+      else startLoop();
+    };
+    document.addEventListener("visibilitychange", onVis);
     window.addEventListener("resize", handleResize);
     window.addEventListener("pointermove", handleWindowPointerMove, { passive: true });
     document.documentElement.addEventListener("pointerleave", handleWindowPointerLeave);
@@ -362,7 +407,10 @@ export function GlobeCanvas({
     canvasEl.addEventListener("pointercancel", handlePointerUp);
 
     return () => {
-      cancelAnimationFrame(rafId);
+      stopLoop();
+      ro.disconnect();
+      io.disconnect();
+      document.removeEventListener("visibilitychange", onVis);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("pointermove", handleWindowPointerMove);
       document.documentElement.removeEventListener("pointerleave", handleWindowPointerLeave);
@@ -377,11 +425,13 @@ export function GlobeCanvas({
   }, [accentColor]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      data-globe-particles
-      aria-hidden="true"
-      className={className}
-    />
+    <div ref={wrapRef} style={{ width: "100%", height: "100%", minHeight: 0 }}>
+      <canvas
+        ref={canvasRef}
+        data-globe-particles
+        aria-hidden="true"
+        className={className}
+      />
+    </div>
   );
 }
