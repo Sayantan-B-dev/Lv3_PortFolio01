@@ -60,7 +60,7 @@ function detect(): WebGLCaps {
       ? (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 8
       : 8;
 
-  // One shared probe for the whole page — never loseContext() it (that logs
+  // One shared probe for the whole page. Never loseContext() it (that logs
   // "WEBGL_lose_context extension not supported" noise); the GC reclaims it.
   let supported = false;
   try {

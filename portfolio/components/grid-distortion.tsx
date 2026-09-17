@@ -356,7 +356,7 @@ export function GridDistortion({
         } | null;
         raw?.loseContext?.();
       } catch {
-        /* ignore — context will be GC'd */
+        /* ignore: context will be GC'd */
       }
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
