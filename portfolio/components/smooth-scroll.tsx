@@ -8,11 +8,15 @@ const easeInOutCubic = (t: number) =>
 
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
   useEffect(() => {
+    const coarse =
+      window.matchMedia?.("(pointer: coarse)").matches ?? false;
+    const reduced =
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: coarse ? 0.9 : 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      touchMultiplier: 1.5,
+      smoothWheel: !coarse,
+      touchMultiplier: 1.0,
     });
 
     let rafId = 0;
@@ -58,6 +62,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     // grabbing the wheel/touch mid-flight hands control back instantly
     window.addEventListener("wheel", cancelFlight, { passive: true });
     window.addEventListener("touchmove", cancelFlight, { passive: true });
+    window.addEventListener("touchstart", cancelFlight, { passive: true });
 
     // Anchor links -> manual glide
     const handleClick = (event: MouseEvent) => {
@@ -75,7 +80,9 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
         // anything else navigates home and lets the native anchor land.
         event.preventDefault();
         if (hash === "#top") {
-          flyTo(0, 2);
+          if (reduced) window.scrollTo(0, 0);
+          else if (coarse) lenis.scrollTo(0, { duration: 0.55 });
+          else flyTo(0, 1.2);
         } else {
           window.location.href = `/${hash}`;
         }
@@ -89,7 +96,16 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
         (el as HTMLElement).getBoundingClientRect().top + window.scrollY - 72
       );
       const dist = Math.abs(dest - window.scrollY);
-      const duration = hash === "#top" ? 2 : Math.min(2.5, Math.max(1, dist / 1400));
+      if (reduced) {
+        window.scrollTo(0, dest);
+        return;
+      }
+      if (coarse) {
+        // Touch: fast native-feel hop instead of a long glide.
+        lenis.scrollTo(dest, { duration: 0.55, easing: (t: number) => 1 - Math.pow(1 - t, 3) });
+        return;
+      }
+      const duration = hash === "#top" ? 1.2 : Math.min(1.4, Math.max(0.6, dist / 1800));
       flyTo(dest, duration);
     };
 
@@ -110,6 +126,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       document.removeEventListener("click", handleClick);
       window.removeEventListener("wheel", cancelFlight);
       window.removeEventListener("touchmove", cancelFlight);
+      window.removeEventListener("touchstart", cancelFlight);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("load", handleResize);
       lenis.start();
