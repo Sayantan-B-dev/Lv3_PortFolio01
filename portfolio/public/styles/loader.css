@@ -1,0 +1,161 @@
+/* ============================================================
+   loader.css: route transition loader (Atom, project themed)
+   Accent matches hero graph (#c4b5fd) + primary token.
+   ============================================================ */
+
+.route-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: grid;
+  place-items: center;
+  background: color-mix(in oklch, var(--background) 72%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: route-loader-in 0.18s ease-out;
+  pointer-events: all;
+}
+
+.route-loader__bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 30%;
+  border-radius: 0 3px 3px 0;
+  background: linear-gradient(90deg, #8b5cf6, #c4b5fd);
+  box-shadow: 0 0 16px color-mix(in srgb, #c4b5fd 70%, transparent);
+  animation: route-loader-slide 1.1s ease-in-out infinite;
+}
+
+.route-loader__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 28px 34px;
+  border-radius: 18px;
+  border: 1px solid color-mix(in oklch, var(--border) 70%, transparent);
+  background: color-mix(in oklch, var(--card) 88%, transparent);
+  box-shadow: 0 24px 70px -30px rgba(0, 0, 0, 0.8);
+}
+
+.route-loader__text {
+  margin: 0;
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+/* Server-component suspense fallbacks (loading.tsx) */
+.loader-fallback {
+  min-height: 52vh;
+  display: grid;
+  place-items: center;
+  padding: 48px 20px;
+}
+
+.loader-fallback__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Blog skeleton grid shown under the Atom while posts stream in */
+.blog-skeleton-grid {
+  display: grid;
+  gap: 18px;
+  margin-top: 28px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 700px) {
+  .blog-skeleton-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1100px) {
+  .blog-skeleton-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.blog-skeleton-card {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid color-mix(in oklch, var(--border) 60%, transparent);
+  background: color-mix(in oklch, var(--card) 80%, transparent);
+}
+
+.blog-skeleton-card__img {
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(
+    100deg,
+    color-mix(in oklch, var(--muted) 55%, transparent) 30%,
+    color-mix(in oklch, #c4b5fd 22%, transparent) 50%,
+    color-mix(in oklch, var(--muted) 55%, transparent) 70%
+  );
+  background-size: 200% 100%;
+  animation: route-loader-shimmer 1.4s linear infinite;
+}
+
+.blog-skeleton-card__body {
+  padding: 16px;
+  display: grid;
+  gap: 10px;
+}
+
+.blog-skeleton-line {
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(
+    100deg,
+    color-mix(in oklch, var(--muted) 55%, transparent) 30%,
+    color-mix(in oklch, #c4b5fd 22%, transparent) 50%,
+    color-mix(in oklch, var(--muted) 55%, transparent) 70%
+  );
+  background-size: 200% 100%;
+  animation: route-loader-shimmer 1.4s linear infinite;
+}
+
+.blog-skeleton-line--short {
+  width: 45%;
+}
+
+@keyframes route-loader-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes route-loader-slide {
+  0% {
+    left: -30%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes route-loader-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-loader__bar,
+  .blog-skeleton-card__img,
+  .blog-skeleton-line {
+    animation: none;
+  }
+}

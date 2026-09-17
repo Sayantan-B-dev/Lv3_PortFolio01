@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { SiteHeader } from "@/components/site-header";
 import { Footer } from "@/components/footer";
+import { RouteLoader } from "@/components/route-loader";
 import { GlowCursor } from "@/components/glow-cursor";
 import "./globals.css";
 
@@ -77,6 +78,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           className="glow-cursor--fullscreen"
         /> */}
         <SmoothScroll>
+          <RouteLoader />
           <SiteHeader />
           {children}
           <Footer />

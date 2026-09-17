@@ -26,6 +26,7 @@
 @import "../public/styles/ui.css";
 @import "../public/styles/blog.css";
 @import "../public/styles/admin.css";
+@import "../public/styles/loader.css";
 @import "../public/styles/responsive.css";
 
 /* Motion showcase runs even with prefers-reduced-motion (same as before). */
