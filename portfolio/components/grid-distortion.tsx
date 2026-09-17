@@ -69,6 +69,8 @@ export function GridDistortion({
     const container = containerRef.current;
 
     // Bail to <img> fallback when WebGL is unavailable.
+    // Note: no loseContext() on the probe — the detached canvas is GC'd,
+    // and forcing it logs "WEBGL_lose_context extension not supported" noise.
     try {
       const probe = document.createElement("canvas");
       const gl = probe.getContext("webgl2") || probe.getContext("webgl");
@@ -76,7 +78,6 @@ export function GridDistortion({
         setFailed(true);
         return;
       }
-      (gl.getExtension("WEBGL_lose_context") as { loseContext?: () => void } | null)?.loseContext?.();
     } catch {
       setFailed(true);
       return;
@@ -330,7 +331,16 @@ export function GridDistortion({
       dataTexture.dispose();
       if (uniforms.uTexture.value) uniforms.uTexture.value.dispose();
       renderer.dispose();
-      renderer.forceContextLoss();
+      // Guarded context release: THREE's forceContextLoss() warns loudly
+      // when the extension is missing, so go through the raw extension.
+      try {
+        const raw = renderer.getContext()?.getExtension("WEBGL_lose_context") as unknown as {
+          loseContext?: () => void;
+        } | null;
+        raw?.loseContext?.();
+      } catch {
+        /* ignore — context will be GC'd */
+      }
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }

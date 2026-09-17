@@ -264,7 +264,9 @@ export function AccordionGallery({
           >
             <span className="ag-panel__frame">
               <span className="ag-panel__tunnel" aria-hidden="true">
-                {(!coarse || isActive) && (
+                {/* Active panel only: 8 simultaneous WebGL contexts exhaust
+                    the browser limit and kill the hero/globe contexts. */}
+                {isActive && (
                 <LightTunnel
                   cableColor="#A855F7"
                   pulseColor="#c4b5fd"
