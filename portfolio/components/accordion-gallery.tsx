@@ -76,6 +76,16 @@ export function AccordionGallery({
   const vertical = orientation === "vertical";
   const count = items.length;
   const [active, setActive] = useState(Math.min(Math.max(defaultIndex, 0), count - 1));
+  const [coarse, setCoarse] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia?.("(pointer: coarse)");
+    if (!mq) return;
+    const sync = () => setCoarse(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
 
   const prefersReduced =
     typeof window !== "undefined" && window.matchMedia
@@ -254,6 +264,7 @@ export function AccordionGallery({
           >
             <span className="ag-panel__frame">
               <span className="ag-panel__tunnel" aria-hidden="true">
+                {(!coarse || isActive) && (
                 <LightTunnel
                   cableColor="#A855F7"
                   pulseColor="#c4b5fd"
@@ -265,7 +276,7 @@ export function AccordionGallery({
                   pulseLength={0.28}
                   pulseBlend={1}
                   pulseWidth={1}
-                  cableCount={20}
+                  cableCount={coarse ? 10 : 20}
                   thickness={0.35}
                   rimWidth={0.15}
                   waviness={0.3}
@@ -277,13 +288,14 @@ export function AccordionGallery({
                   fadeNear={0.5}
                   fadeFar={2}
                   brightness={1}
-                  colorVariance
-                  grain
+                  colorVariance={!coarse}
+                  grain={!coarse}
                   grainIntensity={0.05}
                   opacity={1}
-                  mouseInteraction
+                  mouseInteraction={!coarse}
                   mouseStrength={0.1}
                 />
+                )}
               </span>
               <span
                 className="ag-panel__media"
@@ -291,7 +303,13 @@ export function AccordionGallery({
                   mediaRefs.current[i] = el;
                 }}
               >
-                <img src={item.image} alt={item.alt || item.label || ""} draggable={false} />
+                <img
+                  src={item.image}
+                  alt={item.alt || item.label || ""}
+                  draggable={false}
+                  loading="lazy"
+                  decoding="async"
+                />
               </span>
               <span className="ag-panel__overlay" aria-hidden="true" />
             </span>

@@ -220,13 +220,26 @@ export function LightTunnel({
     const container = containerRef.current;
     if (!container) return;
 
-    const renderer = new Renderer({
-      canvas: document.createElement("canvas"),
-      alpha: true,
-      antialias: false,
-      dpr: Math.min(window.devicePixelRatio || 1, 2),
-      webgl: 2,
-    } as ConstructorParameters<typeof Renderer>[0]);
+    // No WebGL2 -> leave a transparent fallback instead of throwing.
+    try {
+      const probe = document.createElement("canvas");
+      if (!probe.getContext("webgl2")) return;
+    } catch {
+      return;
+    }
+
+    let renderer: InstanceType<typeof Renderer>;
+    try {
+      renderer = new Renderer({
+        canvas: document.createElement("canvas"),
+        alpha: true,
+        antialias: false,
+        dpr: Math.min(window.devicePixelRatio || 1, 2),
+        webgl: 2,
+      } as ConstructorParameters<typeof Renderer>[0]);
+    } catch {
+      return;
+    }
 
     const gl = renderer.gl;
     gl.clearColor(0, 0, 0, 0);
