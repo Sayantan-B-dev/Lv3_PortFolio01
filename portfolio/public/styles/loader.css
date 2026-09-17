@@ -9,9 +9,7 @@
   z-index: 120;
   display: grid;
   place-items: center;
-  background: color-mix(in oklch, var(--background) 72%, transparent);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: transparent;
   animation: route-loader-in 0.18s ease-out;
   pointer-events: all;
 }
@@ -45,6 +43,7 @@
   font-size: 0.85rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  text-align: center;
   color: var(--muted-foreground);
 }
 
