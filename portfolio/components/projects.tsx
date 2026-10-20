@@ -48,7 +48,7 @@ export function Projects() {
       <div className="projects-divider">
         <Marquee
           speed={38}
-          items={["Re-Docs", "BlueEye", "LnkZoo", "MERN", "Next.js 16", "WebGL"]}
+          items={["BlueEye", "LnkZoo", "Re-Docs", "MERN", "Next.js 16", "WebGL"]}
           className="projects-divider__marquee"
         />
       </div>

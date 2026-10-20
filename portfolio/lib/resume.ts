@@ -14,29 +14,6 @@ export const profile = {
 
 export const projects = [
   {
-    name: "Re-Docs",
-    tagline: "Full-Stack Knowledge & Note Management Platform",
-    github: "https://github.com/Sayantan-B-dev/Lv3_Re-Docs",
-    live: "https://re-docs-pi.vercel.app/",
-    tech: [
-      "MongoDB",
-      "Express.js",
-      "React (Vite)",
-      "Node.js",
-      "Tailwind CSS",
-      "Cloudinary",
-      "Razorpay",
-      "Passport.js",
-      "mermaid.js",
-      "KaTeX",
-    ],
-    features: [
-      "Session-based auth (Passport local + Google OAuth) with profile & social features",
-      "Markdown + math notes with synchronized scroll, category/tag system, file uploads",
-      "Public/private notes, exports, and a modern responsive UI",
-    ],
-  },
-  {
     name: "BlueEye",
     tagline: "Artist Discovery & Booking Platform",
     github: "https://github.com/Sayantan-B-dev/lv3_BlueEye",
@@ -80,6 +57,29 @@ export const projects = [
       "Recursive nested comments (10-level depth), hot-feed ranking, leaderboard, follow/block system",
       "OG/JSON-LD/oEmbed parsing, Groq AI tag suggestions, concurrent bulk upload, admin analytics",
       "JWT + Google OAuth, CSRF state, rate limiting, 100% parameterized SQL",
+    ],
+  },
+  {
+    name: "Re-Docs",
+    tagline: "Full-Stack Knowledge & Note Management Platform",
+    github: "https://github.com/Sayantan-B-dev/Lv3_Re-Docs",
+    live: "https://re-docs-pi.vercel.app/",
+    tech: [
+      "MongoDB",
+      "Express.js",
+      "React (Vite)",
+      "Node.js",
+      "Tailwind CSS",
+      "Cloudinary",
+      "Razorpay",
+      "Passport.js",
+      "mermaid.js",
+      "KaTeX",
+    ],
+    features: [
+      "Session-based auth (Passport local + Google OAuth) with profile & social features",
+      "Markdown + math notes with synchronized scroll, category/tag system, file uploads",
+      "Public/private notes, exports, and a modern responsive UI",
     ],
   },
 ];
