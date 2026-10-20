@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ArrowUpRight, Mail, MapPin } from "lucide-react";
 
-import { GithubIcon, LinkedinIcon } from "@/components/icons";
+import { FiverrIcon, GithubIcon, LinkedinIcon } from "@/components/icons";
 import { FadeIn, LinesReveal } from "@/components/motion";
 import { GridDistortion } from "@/components/grid-distortion";
 import { profile } from "@/lib/resume";
@@ -24,7 +24,7 @@ const faqs = [
   },
   {
     q: "Is Sayantan available for freelance or full-time work?",
-    a: "Yes. He is open to both freelance projects and full-time Full Stack Developer roles. Send an email and expect a reply within a day.",
+    a: "Yes. He is open to both freelance projects and full-time Full Stack Developer roles. Hire him on Fiverr at fiverr.com/sayantan_dev, or send an email and expect a reply within a day.",
   },
   {
     q: "Where is he based, and does he work remotely?",
@@ -105,6 +105,7 @@ export function Contact() {
                 </p>
                 <SocialRow href={profile.github} icon={<GithubIcon className="icon-5" />} label="GitHub" handle="@Sayantan-B-dev" />
                 <SocialRow href={profile.linkedin} icon={<LinkedinIcon className="icon-5" />} label="LinkedIn" handle="Sayantan Bharati" />
+                <SocialRow href={profile.fiverr} icon={<FiverrIcon className="icon-5" />} label="Fiverr" handle="Hire me · @sayantan_dev" />
                 <SocialRow href="https://maps.google.com/?q=Kolkata,India" icon={<MapPin className="icon-5" />} label="Based in" handle="Kolkata, India" />
               </div>
             </FadeIn>

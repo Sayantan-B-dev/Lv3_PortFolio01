@@ -5,7 +5,7 @@ import { ArrowUp, Lock, Mail } from "lucide-react";
 import Link from "next/link";
 
 import { Marquee } from "@/components/marquee";
-import { GithubIcon, LinkedinIcon } from "@/components/icons";
+import { FiverrIcon, GithubIcon, LinkedinIcon } from "@/components/icons";
 import { navLinks, profile } from "@/lib/resume";
 
 function useKolkataTime() {
@@ -63,6 +63,12 @@ export function Footer() {
                 <a href={profile.linkedin} target="_blank" rel="noreferrer" className="site-footer__col-link">
                   <LinkedinIcon className="icon-4" />
                   LinkedIn
+                </a>
+              </li>
+              <li>
+                <a href={profile.fiverr} target="_blank" rel="noreferrer" className="site-footer__col-link">
+                  <FiverrIcon className="icon-4" />
+                  Fiverr
                 </a>
               </li>
               <li>

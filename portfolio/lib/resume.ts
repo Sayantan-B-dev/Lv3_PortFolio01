@@ -8,6 +8,7 @@ export const profile = {
   location: "Kolkata, India",
   linkedin: "https://www.linkedin.com/in/sayantanbharati/",
   github: "https://github.com/Sayantan-B-dev",
+  fiverr: "https://www.fiverr.com/sayantan_dev?public_mode=true",
   summary:
     "Full Stack Web Developer with experience in the MERN stack and building responsive, user-friendly web applications. Focused on writing clean, maintainable code, creating efficient workflows, and developing practical solutions that make a real difference.",
 };

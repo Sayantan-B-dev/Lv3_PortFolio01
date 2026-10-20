@@ -6,7 +6,7 @@ import { ArrowDown, Mail, RotateCcw } from "lucide-react";
 
 import { GlobeCanvas } from "@/components/globe";
 import { GridDistortion } from "@/components/grid-distortion";
-import { GithubIcon, LinkedinIcon } from "@/components/icons";
+import { FiverrIcon, GithubIcon, LinkedinIcon } from "@/components/icons";
 import { LinesReveal } from "@/components/motion";
 import { profile } from "@/lib/resume";
 
@@ -155,6 +155,16 @@ export function Hero() {
                 >
                   <LinkedinIcon className="icon-5" />
                   LinkedIn
+                </a>
+                <a
+                  href={profile.fiverr}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Fiverr"
+                  className="hero__social-link"
+                >
+                  <FiverrIcon className="icon-5" />
+                  Fiverr
                 </a>
               </div>
             </div>
